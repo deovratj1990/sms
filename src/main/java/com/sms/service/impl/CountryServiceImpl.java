@@ -39,7 +39,16 @@ public class CountryServiceImpl implements CountryService {
 
 	@Override
 	public Country editCountry(Country country) {
+	
+		Country foundCountry = countryRepo.findByCountryName(country.getCountryName());
+	
+		if(null == foundCountry) {
+			Country existingCountry = countryRepo.findCountryByCountryId(country.getCountryId());
+			existingCountry.setCountryName(country.getCountryName());
+			return countryRepo.save(existingCountry);
+		}	
 		
 		return null;
+		
 	}
 }

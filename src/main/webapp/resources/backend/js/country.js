@@ -30,12 +30,16 @@ function ajax(url, callback, method, data) {
 		method: method,
 		url: url,
 		dataType: 'json',
-		success: function (response) {
-			callback(response);
+		success: function (data, textStatus, jqXHR) {
+			callback(jqXHR, textStatus, data);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			callback(jqXHR, textStatus, errorThrown);
 		}
 	};
 	
-	if(method == 'POST' || method == 'PUT') {		options.data = data;
+	if(method == 'POST' || method == 'PUT') {
+		options.data = data;
 	}
 	
 	$.ajax(options);
@@ -54,29 +58,36 @@ $("#country_submit").click(function () {
 	var formData = getFormData($("#country_form"));
 	
 	if(countryEdit == false) {
-		ajax('http://localhost:8080/address/addCountry', function(response) {
-			$('#countryListBody tr').removeClass('warning success');
-			$("#country_form")[0].reset();	
-			var trBody = '<tr id="country_' + response.countryId + '" class="success">' +
-								//'<td>' + response.countryId + '</td>' + 
-								'<td>' + response.countryName + '</td>' + 
-								'<td><a href="javascript:void(0);" onClick="getCountryEdit(' + response.countryId + ')">Edit</a></td>' +
-								'<td><a href="javascript:void(0);">Delete</a></td>' +
-							'</tr>';
-			$("#countryListBody").html(trBody + $("#countryListBody").html());
-		}, 'PUT', formData);		
+		ajax('http://localhost:8080/address/addCountry', function(jqXHR, textStatus, dataOrError) {
+			if(jqXHR.status != 204) {
+				$('#countryListBody tr').removeClass('warning success');
+				$("#country_form")[0].reset();	
+				var trBody = '<tr id="country_' + dataOrError.countryId + '" class="success">' +
+									'<td>' + dataOrError.countryName + '</td>' + 
+									'<td><a href="javascript:void(0);" onClick="getCountryEdit(' + dataOrError.countryId + ')">Edit</a></td>' +
+									'<td><a href="javascript:void(0);">Delete</a></td>' +
+								'</tr>';
+				$("#countryName").css('borderColor', '');
+				$("#countryListBody").html(trBody + $("#countryListBody").html());
+			} else {
+				$("#countryName").css('borderColor', '#F00');
+				alert('Data already exist');
+			}
+		}, 'PUT', formData);	
 	} else {
-		ajax('http://localhost:8080/address/editCountry?countryId=' + countryEditId, function(response) {
+		ajax('http://localhost:8080/address/editCountry?countryId=' + countryEditId, function(jqXHR, textStatus, dataOrError) {
+			console.log(jqXHR);
+			
 			$('#countryListBody tr').removeClass('warning success');
 			$("#country_form")[0].reset();	
-			var trBody = '<td>' + response.countryName + '</td>' + 
+			var trBody = '<td>' + dataOrError.countryName + '</td>' + 
 						 '<td><a href="javascript:void(0);" onClick="getCountryEdit(' + countryEditId + ')">Edit</a></td>' +
 						 '<td><a href="javascript:void(0);">Delete</a></td>';
 			$("#country_" + countryEditId).html(trBody);
 			$("#country_" + countryEditId).addClass('success');
 			countryEdit = false;
 			countryEditId = 0;
-		}, 'PUT', formData);	
+		}, 'PUT', formData);
 	}
 	
 
@@ -89,7 +100,8 @@ function getCountryEdit(id){
 	countryEditId = id;
 	$("#country_" + id).addClass("warning");
 	
-	ajax('http://localhost:8080/address/getCountry?countryId='+id,function(response){
-		$("#countryName").val(response.countryName);		
+	ajax('http://localhost:8080/address/getCountry?countryId='+id,function(jqXHR, textStatus, dataOrError){
+		$("#countryName").val(dataOrError.countryName);
+		$("#countryName").focus();
 	});	
 }

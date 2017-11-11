@@ -60,7 +60,7 @@ public class AddressController {
 		Country savedCountry = countryService.addCountry(country);
 		
 		if(null == savedCountry) {
-			return new ResponseEntity<Country>(savedCountry, HttpStatus.OK);
+			return new ResponseEntity<Country>(HttpStatus.NO_CONTENT);
 		} else {
 			return new ResponseEntity<Country>(savedCountry, HttpStatus.OK);
 		}
@@ -74,14 +74,21 @@ public class AddressController {
 		return new ResponseEntity<Country> (country, HttpStatus.OK);
 	}
 	
-	/*@RequestMapping(value="/editCountry", method=RequestMethod.PUT)
-	public ResponseEntity<Country> editCountry(@RequestParam Long countryId , @RequestParam String countryName){
+	@RequestMapping(value="/editCountry", method=RequestMethod.PUT)
+	public ResponseEntity<String> editCountry(@RequestParam Long countryId , @RequestParam String countryName){
 		Country country = new Country();
 		country.setCountryId(countryId);
 		country.setCountryName(countryName);
 		
 		Country editCountry = countryService.editCountry(country);
-	}*/
+		
+		if(null == editCountry) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+		}
+		
+	}
 	
 	@RequestMapping(value = "/addState", method=RequestMethod.PUT)
 	public ResponseEntity<String> addState(@RequestParam Long countryId, @RequestParam Long stateId, @RequestParam String stateName) {
