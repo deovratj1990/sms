@@ -54,7 +54,8 @@ $("#country_submit").click(function () {
 	var formData = getFormData($("#country_form"));
 	
 	if(countryEdit == false) {
-		ajax('http://localhost:8080/society/addCountry', function(response) {
+		ajax('http://localhost:8080/address/addCountry', function(response) {
+			$('#countryListBody tr').removeClass('warning success');
 			$("#country_form")[0].reset();	
 			var trBody = '<tr id="country_' + response.countryId + '" class="success">' +
 								//'<td>' + response.countryId + '</td>' + 
@@ -65,7 +66,8 @@ $("#country_submit").click(function () {
 			$("#countryListBody").html(trBody + $("#countryListBody").html());
 		}, 'PUT', formData);		
 	} else {
-		ajax('http://localhost:8080/society/editCountry?countryId=' + countryEditId, function(response) {
+		ajax('http://localhost:8080/address/editCountry?countryId=' + countryEditId, function(response) {
+			$('#countryListBody tr').removeClass('warning success');
 			$("#country_form")[0].reset();	
 			var trBody = '<td>' + response.countryName + '</td>' + 
 						 '<td><a href="javascript:void(0);" onClick="getCountryEdit(' + countryEditId + ')">Edit</a></td>' +
@@ -81,13 +83,13 @@ $("#country_submit").click(function () {
 });
 
 function getCountryEdit(id){
-	$('#countryListBody tr').removeClass('danger success');
+	$('#countryListBody tr').removeClass('warning success');
 
 	countryEdit = true;
 	countryEditId = id;
-	$("#country_" + id).addClass("danger");
+	$("#country_" + id).addClass("warning");
 	
-	ajax('http://localhost:8080/society/getCountry?countryId='+id,function(response){
+	ajax('http://localhost:8080/address/getCountry?countryId='+id,function(response){
 		$("#countryName").val(response.countryName);		
 	});	
 }

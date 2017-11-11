@@ -14,7 +14,7 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Society <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li class=""><a href="#">Society Registration</a></li>
+            <li class=""><a href="/society/registration">Society Registration</a></li>
           </ul>
         </li>
         <li class="dropdown">

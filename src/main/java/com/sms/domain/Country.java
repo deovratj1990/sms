@@ -12,8 +12,8 @@ import javax.persistence.Table;
 public class Country {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "country_id")
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "country_id", columnDefinition = "AUTO_INCREMENT")
 	private Long countryId;
 	
 	@Column(name = "country_name")

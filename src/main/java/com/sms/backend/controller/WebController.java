@@ -14,7 +14,7 @@ public class WebController {
 	@Autowired
 	private CountryService countryService;
 	
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/society")
 	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView(Constants.SOCIETY_REGISTER);
 		mv.addObject(Constants.COUNRTY_LIST, countryService.getCountries());

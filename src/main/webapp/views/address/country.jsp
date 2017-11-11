@@ -19,7 +19,7 @@
       <div class="form-group">
         <label class="control-label col-sm-4" for="countryName">Country Name:</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="countryName" name="countryName" placeholder="Enter Country Name">
+          <input type="text" class="form-control" id="countryName" name="countryName" placeholder="Enter Country Name" autofocus>
         </div>
       </div>
       <div class="form-group" align="middle"> 

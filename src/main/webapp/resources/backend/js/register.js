@@ -137,7 +137,7 @@ $("#registration_submit").click(function () {
 	$.ajax({
 	    contentType: "application/json",
 	    type: "POST",
-		url : 'http://localhost:8080/society/register',
+		url : 'http://localhost:8080/address/register',
 		data:  JSON.stringify(formData),
 		success: function (response) {
 			if(response.success) {
@@ -150,7 +150,7 @@ $("#registration_submit").click(function () {
 $("#country_name").change(function() {
 	var country_id = $(this).val();
 	
-	ajax('http://localhost:8080/society/getStates?countryId=' + country_id, function (response) {
+	ajax('http://localhost:8080/address/getStates?countryId=' + country_id, function (response) {
 		var option_str = '<option value="">-Select-</option>';
 		for(var key in response) {
 			option_str += '<option value="' + response[key].countryId + '">' + response[key].stateName + '</option>';
@@ -162,7 +162,7 @@ $("#country_name").change(function() {
 $("#state_name").change(function(){
 	var state_id = $(this).val();
 	
-	ajax('http://localhost:8080/society/getCities?stateId=' + state_id, function(response) {
+	ajax('http://localhost:8080/address/getCities?stateId=' + state_id, function(response) {
 		var option_str = '<option value="">-Select-</option>';
 		for(var key in response){
 			option_str += '<option value="' + response[key].cityId + '">' + response[key].cityName + '</option>';
@@ -174,7 +174,7 @@ $("#state_name").change(function(){
 $("#city_name").change(function(){
 	var city_id = $(this).val();
 	
-	ajax("http://localhost:8080/society/getPincode?cityId=" + city_id, function(response){
+	ajax("http://localhost:8080/address/getPincode?cityId=" + city_id, function(response){
 		var option_str = "<option value=''>-Select-</option>";
 		for(var key in response){
 			option_str += '<option value="' + response[key].pincodeId + '">' + response[key].pincodeName + '</option>';
@@ -188,7 +188,7 @@ $("#city_name").change(function(){
 $("#pincode_name").change(function(){
 	var pincode_id = $(this).val();
 	
-	ajax("http://localhost:8080/society/getLocality?pincodeId=" + pincode_id, function(response){
+	ajax("http://localhost:8080/address/getLocality?pincodeId=" + pincode_id, function(response){
 		var option_str = "<option value=''>-Select-</option>";
 		
 		for(var key in response){
