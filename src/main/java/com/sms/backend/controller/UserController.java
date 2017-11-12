@@ -7,13 +7,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sms.constants.Constants;
 
 @RestController
-@RequestMapping(value="/")
-public class LoginController {
+@RequestMapping(value="/admin/user")
+public class UserController {
 
-	@RequestMapping(value = "/admin")
-    public ModelAndView adminLogin() {
-		ModelAndView mv = new ModelAndView(Constants.LOGIN);
+	@RequestMapping(value = "/login")
+    public ModelAndView login() {
+		ModelAndView mv = new ModelAndView(Constants.USER_LOGIN);
 		return mv;
-    }
-	
+    }	
 }

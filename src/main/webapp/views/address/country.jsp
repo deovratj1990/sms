@@ -10,11 +10,11 @@
   <script src="/resources/common/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@include file="../common/header.jsp" %>
-  
 <div class="container">
   <div class="row">
-    <div class="col-sm-12" align="middle">
+	<%@include file="../common/header.jsp" %>
+  
+    <div class="col-sm-12" align="center">
     <form class="form-horizontal" id="country_form" onsubmit="return false;">
       <div class="form-group">
         <label class="control-label col-sm-4" for="countryName">Country Name:</label>
@@ -22,15 +22,17 @@
           <input type="text" class="form-control" id="countryName" name="countryName" placeholder="Enter Country Name" autofocus>
         </div>
       </div>
-      <div class="form-group" align="middle"> 
+      <div class="form-group" align="center"> 
         <div class="col-sm-offset-2 col-sm-8">
-          <button type="button" class="btn btn-default" id="country_submit">Submit</button>
+          <input type="Submit" class="btn btn-default" id="country_submit" value="Save" />
         </div>
       </div>
     </form>
     </div>
-    <div class="row"> Country List
-    	<div class="col-sm-12">
+    <div class="row">
+    	<div class="col-sm-12" align="center">
+    		<p>Country List</p>
+    	
     		<table class="table table-hover table-striped">
 			    <thead>
 			      <tr>
@@ -41,11 +43,11 @@
 			      </tr>
 			    </thead>
 			    <tbody id="countryListBody">
-				    <c:forEach items="${countryList}" var="country" varStatus="cntr">
-				    	<tr id="country_${country.countryId}">
+				    <c:forEach begin="0" end="${countryList.size() - 1}" var="index" varStatus="cntr">
+				    	<tr id="country_${countryList.get(index).get("countryId").asInt()}">
 				    		<!-- <td>${cntr.count}</td>-->
-				    		<td>${country.countryName}</td>
-				    		<td><a href="javascript:void(0);" onClick="getCountryEdit(${country.countryId})">Edit</a></td>
+				    		<td>${countryList.get(index).get("countryName").asText()}</td>
+				    		<td><a href="javascript:void(0);" onClick="getCountryEdit(${countryList.get(index).get("countryId").asInt()})">Edit</a></td>
 				    		<td><a href="javascript:void(0);">Delete</a></td>
 				    	</tr>
 				    </c:forEach>

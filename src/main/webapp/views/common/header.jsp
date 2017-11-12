@@ -21,6 +21,10 @@
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Address <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li class=""><a href="/address/country">Country</a></li>
+            <li class=""><a href="/address/state">State</a></li>
+            <li class=""><a href="/address/city">City</a></li>
+            <li class=""><a href="/address/pincode">Pincode</a></li>
+            <li class=""><a href="/address/locality">Locality</a></li>
           </ul>
         </li>
       </ul>

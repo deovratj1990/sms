@@ -58,7 +58,7 @@ $("#country_submit").click(function () {
 	var formData = getFormData($("#country_form"));
 	
 	if(countryEdit == false) {
-		ajax('http://localhost:8080/address/addCountry', function(jqXHR, textStatus, dataOrError) {
+		ajax('http://localhost:8080/country/add', function(jqXHR, textStatus, dataOrError) {
 			if(jqXHR.status != 204) {
 				$('#countryListBody tr').removeClass('warning success');
 				$("#country_form")[0].reset();	
@@ -75,22 +75,25 @@ $("#country_submit").click(function () {
 			}
 		}, 'PUT', formData);	
 	} else {
-		ajax('http://localhost:8080/address/editCountry?countryId=' + countryEditId, function(jqXHR, textStatus, dataOrError) {
-			console.log(jqXHR);
-			
-			$('#countryListBody tr').removeClass('warning success');
-			$("#country_form")[0].reset();	
-			var trBody = '<td>' + dataOrError.countryName + '</td>' + 
-						 '<td><a href="javascript:void(0);" onClick="getCountryEdit(' + countryEditId + ')">Edit</a></td>' +
-						 '<td><a href="javascript:void(0);">Delete</a></td>';
-			$("#country_" + countryEditId).html(trBody);
-			$("#country_" + countryEditId).addClass('success');
-			countryEdit = false;
-			countryEditId = 0;
+		formData.countryId = countryEditId;
+		
+		ajax('http://localhost:8080/country/edit', function(jqXHR, textStatus, dataOrError) {
+			if(jqXHR.status != 204) {
+				$('#countryListBody tr').removeClass('warning success');
+				$("#country_form")[0].reset();	
+				var trBody = '<td>' + dataOrError.countryName + '</td>' + 
+							 '<td><a href="javascript:void(0);" onClick="getCountryEdit(' + countryEditId + ')">Edit</a></td>' +
+							 '<td><a href="javascript:void(0);">Delete</a></td>';
+				$("#country_" + countryEditId).html(trBody);
+				$("#country_" + countryEditId).addClass('success');
+				countryEdit = false;
+				countryEditId = 0;
+			} else {
+				$("#countryName").css('borderColor', '#F00');
+				alert('Data already exist');
+			}
 		}, 'PUT', formData);
 	}
-	
-
 });
 
 function getCountryEdit(id){
@@ -100,7 +103,7 @@ function getCountryEdit(id){
 	countryEditId = id;
 	$("#country_" + id).addClass("warning");
 	
-	ajax('http://localhost:8080/address/getCountry?countryId='+id,function(jqXHR, textStatus, dataOrError){
+	ajax('http://localhost:8080/country/getByCountryId?countryId='+id,function(jqXHR, textStatus, dataOrError){
 		$("#countryName").val(dataOrError.countryName);
 		$("#countryName").focus();
 	});	

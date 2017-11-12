@@ -27,8 +27,8 @@
         <div class="col-sm-4">
           <select class="form-control" id="country_name" name="country_name">
           	<option value="">-Select-</option>
-            <c:forEach items="${countryList}" var="country">
-            	<option value="${country.countryId}">${country.countryName}</option>
+            <c:forEach begin="0" end="${countryList.size() - 1}" var="index">
+            	<option value="${countryList.get(index).get("countryId").asInt()}">${countryList.get(index).get("countryName").asText()}</option>
 			</c:forEach>
           </select>
         </div>
