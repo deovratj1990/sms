@@ -1,18 +1,36 @@
 package com.sms.backend.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sms.constants.Constants;
+import com.sms.authentication.AuthUtils;
 
-@RestController
-@RequestMapping(value="/admin/user")
-public class UserController {
+@Controller
+@RequestMapping(path = "/admin")
+public class UserController extends AbstractController {
 
-	@RequestMapping(value = "/login")
-    public ModelAndView login() {
-		ModelAndView mv = new ModelAndView(Constants.USER_LOGIN);
-		return mv;
-    }	
+	@Autowired
+	private AuthUtils authUtils;
+
+	@RequestMapping(path = "")
+	public ModelAndView dashboard() {
+		return render("dashboard");
+	}
+
+	@RequestMapping(path = "/login")
+    public ModelAndView login(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		if(authUtils.checkJwtCookie(req.getCookies())) {
+			res.sendRedirect("/admin/");
+			return null;
+		} else {
+			return render("login");
+		}
+	}	
 }

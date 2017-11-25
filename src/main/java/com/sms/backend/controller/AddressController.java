@@ -12,8 +12,8 @@ import com.sms.constants.Constants;
 import com.sms.net.Client;
 
 @Controller
-@RequestMapping(value="/address")
-public class AddressController {
+@RequestMapping(value="/admin/address")
+public class AddressController extends AbstractController {
 	
 	Client client;
 	
@@ -23,7 +23,7 @@ public class AddressController {
 	
 	@RequestMapping(value="/country")
 	public ModelAndView country() throws ClientProtocolException, IOException {
-		JsonNode countries = client.getForJson("http://localhost:8080/country/getCountries");
+		JsonNode countries = client.getForJson(config.getServiceUrl("/country/getCountries"));
 		
 		ModelAndView mv = new ModelAndView(Constants.COUNTRY);
 		mv.addObject(Constants.COUNTRY_LIST, countries);
@@ -33,8 +33,8 @@ public class AddressController {
 	
 	@RequestMapping(path="/state")
 	public ModelAndView state() throws ClientProtocolException, IOException {
-		JsonNode countries = client.getForJson("http://localhost:8080/country/getCountries");
-		JsonNode states = client.getForJson("http://localhost:8080/state/getAllStates");
+		JsonNode countries = client.getForJson(config.getServiceUrl("/country/getCountries"));
+		JsonNode states = client.getForJson(config.getServiceUrl("/state/getAllStates"));
 		
 		ModelAndView mv = new ModelAndView(Constants.STATE);
 		mv.addObject(Constants.COUNTRY_LIST, countries);

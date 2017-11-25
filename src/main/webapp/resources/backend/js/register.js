@@ -1,45 +1,5 @@
 var room_numbers = {};
 
-function getFormData($form){
-    var serializedArray = $form.serializeArray();
-    var formData = {};
-    
-    for(var index in serializedArray) {
-    	if(formData[serializedArray[index].name]) {
-    		if(!(formData[serializedArray[index].name] instanceof Array)) {
-    			var tempVal = formData[serializedArray[index].name];
-    			
-    			formData[serializedArray[index].name] = [];
-    			
-    			formData[serializedArray[index].name].push(tempVal);
-    		}
-    		
-    		formData[serializedArray[index].name].push(serializedArray[index].value);
-    	} else {
-    		formData[serializedArray[index].name] = serializedArray[index].value;
-    	}
-    }
-
-    return formData;
-}
-
-function ajax(url, callback, method, data) {
-	method = (method ? method.trim().toUpperCase() : 'GET');
-	
-	var options = {
-		method: method,
-		url: url,
-		success: function (response) {
-			callback(response);
-		}
-	};
-	
-	if(method == 'POST' || method == 'PUT') {		options.data = data;
-	}
-	
-	$.ajax(options);
-}
-
 $("#society_wing_count").keyup(function () {
 	var wing_count = parseInt($(this).val());
 	
@@ -137,7 +97,7 @@ $("#registration_submit").click(function () {
 	$.ajax({
 	    contentType: "application/json",
 	    type: "POST",
-		url : 'http://localhost:8080/society/register',
+		url : config.getServiceUrl("/society/register"),
 		data:  JSON.stringify(formData),
 		success: function (response) {
 			if(response.success) {
@@ -150,7 +110,7 @@ $("#registration_submit").click(function () {
 $("#country_name").change(function() {
 	var country_id = $(this).val();
 	
-	ajax('http://localhost:8080/state/getByCountryId?countryId=' + country_id, function (response) {
+	ajax('/state/getByCountryId?countryId=' + country_id, function (response) {
 		var option_str = '<option value="">-Select-</option>';
 		for(var key in response) {
 			option_str += '<option value="' + response[key].countryId + '">' + response[key].stateName + '</option>';
@@ -162,7 +122,7 @@ $("#country_name").change(function() {
 $("#state_name").change(function(){
 	var state_id = $(this).val();
 	
-	ajax('http://localhost:8080/city/getByStateId?stateId=' + state_id, function(response) {
+	ajax('/city/getByStateId?stateId=' + state_id, function(response) {
 		var option_str = '<option value="">-Select-</option>';
 		for(var key in response){
 			option_str += '<option value="' + response[key].cityId + '">' + response[key].cityName + '</option>';
@@ -174,7 +134,7 @@ $("#state_name").change(function(){
 $("#city_name").change(function(){
 	var city_id = $(this).val();
 	
-	ajax("http://localhost:8080/pincode/getByCityId?cityId=" + city_id, function(response){
+	ajax("/pincode/getByCityId?cityId=" + city_id, function(response){
 		var option_str = "<option value=''>-Select-</option>";
 		for(var key in response){
 			option_str += '<option value="' + response[key].pincodeId + '">' + response[key].pincodeName + '</option>';
@@ -188,7 +148,7 @@ $("#city_name").change(function(){
 $("#pincode_name").change(function(){
 	var pincode_id = $(this).val();
 	
-	ajax("http://localhost:8080/locality/getByPincodeId?pincodeId=" + pincode_id, function(response){
+	ajax("/locality/getByPincodeId?pincodeId=" + pincode_id, function(response){
 		var option_str = "<option value=''>-Select-</option>";
 		
 		for(var key in response){

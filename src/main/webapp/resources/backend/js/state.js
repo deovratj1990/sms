@@ -1,49 +1,5 @@
 var stateEdit = false;
 var stateEditId = 0;
-function getFormData($form){
-    var serializedArray = $form.serializeArray();
-    var formData = {};
-    
-    for(var index in serializedArray) {
-    	if(formData[serializedArray[index].name]) {
-    		if(!(formData[serializedArray[index].name] instanceof Array)) {
-    			var tempVal = formData[serializedArray[index].name];
-    			
-    			formData[serializedArray[index].name] = [];
-    			
-    			formData[serializedArray[index].name].push(tempVal);
-    		}
-    		
-    		formData[serializedArray[index].name].push(serializedArray[index].value);
-    	} else {
-    		formData[serializedArray[index].name] = serializedArray[index].value;
-    	}
-    }
-
-    return formData;
-}
-
-function ajax(url, callback, method, data) {
-	method = (method ? method.trim().toUpperCase() : 'GET');
-	
-	var options = {
-		method: method,
-		url: url,
-		dataType: 'json',
-		success: function (data, textStatus, jqXHR) {
-			callback(jqXHR, textStatus, data);
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			callback(jqXHR, textStatus, errorThrown);
-		}
-	};
-	
-	if(method == 'POST' || method == 'PUT') {
-		options.data = data;
-	}
-	
-	$.ajax(options);
-}
 
 $("#state_submit").click(function () {
 	
@@ -68,7 +24,7 @@ $("#state_submit").click(function () {
 	var formData = getFormData($("#state_form"));
 	
 	if(stateEdit == false) {
-		ajax('http://localhost:8080/state/add', function(jqXHR, textStatus, dataOrError) {
+		ajax('/state/add', function(jqXHR, textStatus, dataOrError) {
 			if(jqXHR.status != 204) {
 				$('#stateListBody tr').removeClass('warning success');
 				var trBody = '<tr id="state_' + dataOrError.stateId + '" class="success">' +
@@ -87,7 +43,7 @@ $("#state_submit").click(function () {
 		}, 'PUT', formData);	
 	} else {
 		formdata.stateId = stateEditId;
-		ajax('http://localhost:8080/state/edit', function(jqXHR, textStatus, dataOrError) {
+		ajax('/state/edit', function(jqXHR, textStatus, dataOrError) {
 			if(jqXHR.status != 204) {
 				$('#stateListBody tr').removeClass('warning success');
 				var trBody = '<td>' + $("#countryId option:selected").text() + '</td>' + 
@@ -114,7 +70,7 @@ function getstateEdit(id){
 	stateEditId = id;
 	$("#state_" + id).addClass("warning");
 	
-	ajax('http://localhost:8080/state/getByStateId?stateId='+id,function(jqXHR, textStatus, dataOrError){
+	ajax('/state/getByStateId?stateId='+id,function(jqXHR, textStatus, dataOrError){
 		$("#stateName").val(dataOrError.stateName);
 		$("#stateName").focus();
 	});	

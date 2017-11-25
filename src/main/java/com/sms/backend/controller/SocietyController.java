@@ -14,8 +14,8 @@ import com.sms.net.Client;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(value = "society")
-public class SocietyController {
+@RequestMapping(value = "/admin/society")
+public class SocietyController extends AbstractController {
 	Client client;
 	
 	public SocietyController() {
@@ -24,7 +24,8 @@ public class SocietyController {
 	
 	@RequestMapping(value = "/registration")
 	public ModelAndView registartion() throws ClientProtocolException, IOException {
-		JsonNode countries = client.getForJson("http://localhost:8080/address/getCountries");
+		JsonNode countries = client.getForJson(config.getServiceUrl("/address/getCountries"));
+		//JsonNode countries = client.getForJson("http://localhost:8080/address/getCountries");
 		
 		ModelAndView mv = new ModelAndView(Constants.SOCIETY_REGISTER);
 		mv.addObject(Constants.COUNTRY_LIST, countries);
