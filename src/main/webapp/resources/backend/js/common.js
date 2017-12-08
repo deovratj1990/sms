@@ -29,6 +29,13 @@ function ajax(url, callback, method, data) {
 		url: config.getServiceUrl(url),
 		dataType: 'json',
 		timeout: 10000,
+		beforeSend: function (jqXHR) {
+			var accessToken = cookie.get(config.ADMIN_AUTH_COOKIE_NAME);
+			
+			if(accessToken) {
+				jqXHR.setRequestHeader('Authorization', 'Bearer ' + cookie.get(config.ADMIN_AUTH_COOKIE_NAME));
+			}
+		},
 		success: function (data, textStatus, jqXHR) {
 			callback(jqXHR, textStatus, data);
 		},
@@ -53,9 +60,12 @@ function ajax(url, callback, method, data) {
 var cookie = {
 		set: function (cname, cvalue, exdays) {
 		    var d = new Date();
+		    
 		    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-		    var expires = "expires="+ d.toUTCString();
-		    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		    
+		    var expires = d.toUTCString();
+		    
+		    document.cookie = cname + "=" + cvalue + ";expires=" + expires + ";path=/";
 		},
 		get: function (cname) {
 		    var name = cname + "=";
@@ -73,12 +83,14 @@ var cookie = {
 		    return "";
 		},
 		delete: function(cname) {
-			document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+			document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
 		}
 };
+
 $(function(){
 	$("#logoutBtn").click(function(){
-		cookie.delete('jwt');
-		location.assign("/admin/login");
+		cookie.delete(config.ADMIN_AUTH_COOKIE_NAME);
+		
+		location.assign(config.ADMIN_LOGIN_URL);
 	});
 });

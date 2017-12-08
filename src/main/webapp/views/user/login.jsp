@@ -24,7 +24,7 @@
 					<div class="col-sm-4 msg hidden" id="userPasswordError"></div>
 				</div>
 				<div class="form-group text-center">
-					<input type="Submit" class="btn btn-default" id="loginSubmit"
+					<input type="button" class="btn btn-default" id="loginSubmit"
 						value="Login" />
 				</div>
 			</form>

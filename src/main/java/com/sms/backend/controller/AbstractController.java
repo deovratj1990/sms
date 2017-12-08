@@ -18,12 +18,15 @@ public abstract class AbstractController {
 		
 		String controllerName =  Introspector.decapitalize(getClass().getSimpleName().replaceFirst("Controller", ""));
 		
-		data.put("controllerName", controllerName);
-		data.put("viewName", viewName);
-		data.put("serviceProtocol", config.getServiceProtocol());
-		data.put("serviceHost", config.getServiceHost());
-		data.put("servicePort", config.getServicePort());
-		data.put("serviceBaseUrl", config.getServiceUrl(""));
+		data.put("CONTROLLER_NAME", controllerName);
+		data.put("VIEW_NAME", viewName);
+		data.put("SERVICE_PROTOCOL", config.getServiceProtocol());
+		data.put("SERVICE_HOST", config.getServiceHost());
+		data.put("SERVICE_PORT", config.getServicePort());
+		data.put("SERVICE_BASE_URL", config.getServiceBaseUrl());
+		data.put("ADMIN_AUTH_COOKIE_NAME", config.getAdminAuthCookieName());
+		data.put("ADMIN_LOGIN_URL", config.getAdminLoginUrl());
+		data.put("ADMIN_DASHBOARD_URL", config.getAdminDashboardUrl());
 		
 		ModelAndView mv = new ModelAndView("common/html");
 		

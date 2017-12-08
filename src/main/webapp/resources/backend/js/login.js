@@ -19,8 +19,8 @@ $("#loginSubmit").click(function(){
 				$("#" + key).css("border-color","#F00");
 			}			
 		} else {
-			cookie.set("jwt", dataOrError.jwt, 1);
-			//location.assign("/admin/");
+			cookie.set(config.ADMIN_AUTH_COOKIE_NAME, dataOrError.accessToken, 1);
+			location.assign(config.ADMIN_DASHBOARD_URL);
 		}
 	}, "POST", formData);
 });

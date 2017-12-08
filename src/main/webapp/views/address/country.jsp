@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="col-sm-12" align="center">
 	<form class="form-horizontal" id="country_form"
 		onsubmit="return false;">
@@ -31,16 +32,18 @@
 				</tr>
 			</thead>
 			<tbody id="countryListBody">
-				<c:forEach begin="0" end="${countryList.size() - 1}" var="index"
-					varStatus="cntr">
-					<tr id="country_${countryList.get(index).get("countryId").asInt()}">
-						<!-- <td>${cntr.count}</td>-->
-						<td>${countryList.get(index).get("countryName").asText()}</td>
-						<td><a href="javascript:void(0);"
-							onClick="getCountryEdit(${countryList.get(index).get("countryId").asInt()})">Edit</a></td>
-						<td><a href="javascript:void(0);">Delete</a></td>
-					</tr>
-				</c:forEach>
+				<c:if test="${countryList.size() > 0}">
+					<c:forEach begin="0" end="${countryList.size() - 1}" var="index"
+						varStatus="cntr">
+						<tr id="country_${countryList.get(index).get("countryId").asInt()}">
+							<!-- <td>${cntr.count}</td>-->
+							<td>${countryList.get(index).get("countryName").asText()}</td>
+							<td><a href="javascript:void(0);"
+								onClick="getCountryEdit(${countryList.get(index).get("countryId").asInt()})">Edit</a></td>
+							<td><a href="javascript:void(0);">Delete</a></td>
+						</tr>
+					</c:forEach>
+				</c:if>
 			</tbody>
 		</table>
 	</div>
