@@ -52,7 +52,7 @@
 					<c:forEach begin="0" end="${stateList.size() -1}" var="index"
 						varStatus="cntr">
 						<tr id="state_${stateList.get(index).get("stateId").asInt()}">
-							<td></td>
+							<td>${stateList.get(index).get("countryName").asText()}</td>
 							<td>${stateList.get(index).get("stateName").asText()}</td>
 							<td><a href="javascript:void(0);"
 								onClick="getstateEdit(${stateList.get(index).get("stateId").asInt()})">Edit</a></td>

@@ -1,160 +1,212 @@
-var room_numbers = {};
+var roomNumbers = {};
 
-$("#society_wing_count").keyup(function () {
-	var wing_count = parseInt($(this).val());
-	
-	if(wing_count){
+function preValidate() {
+	$('.msg').text('');
+	$(':input').css('border-color', "");
+}
+
+$("#societyWingCount").keyup(function (event) {
+	if((48 <= event.which && 57 >= event.which) || (96 <= event.which && 105 >= event.which) || 8 == event.which || 46 == event.which) {
+		var wingCount = (!isNaN($(this).val()) ? parseInt($(this).val()) : 0);
+		
 	    var string = '';
-	    var wing_col = 0
+	    var wingCol = 0
 	
-	    if(wing_count < 4){
-	      wing_col = Math.round(12 / wing_count);
+	    if(wingCount < 4){
+	    	wingCol = Math.round(12 / wingCount);
 	    } else {
-	      wing_col = 3;
+	    	wingCol = 3;
 	    }
 		
-		var total_element = 0;
+		var totalElement = 0;
 	    var count = 0;
 	
-	    for(var i = 0 ; i < Math.ceil(wing_count/4) ; i++){
+	    for(var i = 0 ; i < Math.ceil(wingCount/4) ; i++){
 			string += '<div class="form-group">';
 	
-			for(var j = 1 ; j <= wing_count && j <= 4 && total_element < wing_count ; j++){
-			  string += ' <div class="col-sm-'+wing_col+' room_number" style="margin-top:5px;"> ';
-			  string += '  <input type="text" class="form-control wing_name" name="wing_name" placeholder="Wing" value="A'+ j +'">';
-			  string += '  <textarea class="form-control room_name" rows="5" name="room_name" placeholder="Room" style="margin-top:5px;">101,102-105</textarea>';
+			
+			for(var j = 1 ; j <= wingCount && j <= 4 && totalElement < wingCount ; j++){
+			  string += ' <div class="col-sm-'+wingCol+'" style="margin-top:5px;"> ';
+			  string += '  <input type="text" class="form-control wingName" id="wingName_' + totalElement + '" name="wingName" data-room-id="roomName_' + totalElement + '" placeholder="Wing">';
+			  string += '  <div class="text-danger msg" id="wingName_' + totalElement + 'Error"></div>';
+			  string += '  <textarea class="form-control roomName" rows="5" id="roomName_' + totalElement + '" name="roomName" placeholder="Room" style="margin-top:5px;"></textarea>';
+			  string += '  <div class="text-danger msg" id="roomName_' + totalElement + 'Error"></div>';
 			  string += ' </div>';
-			  total_element ++;
+			  totalElement ++;
 			}
 	
 			string += '</div>';
 		}
 			  
-	    $('#wing_form').html(string);
-	
-	    $('#secretary_info').removeClass('hidden');
-	}
+	    $('#wingForm').html(string);
+	}	
 });
 
-$("#registration_form").on("blur", ".room_name", function(elem){
-	$("#registration_form .room_number").each(function () {
-		var wing_name = $(this).find(".wing_name").val();
-		var room_name = $(this).find(".room_name").val();
+$("#secretaryWing").focus(function () {
+	resetSelect(this, "Wing");
+	resetSelect("#secretaryRoom", "Room");
+	var element = this;
+	$('input[name="wingName"]').each( function () {
+		$(element).append('<option value="' + $(this).val() + '">' + $(this).val() + '</option>');
+	});
+});
 
-		if(wing_name && room_name) {
-			var room_names = room_name.split(",");
-			room_numbers[wing_name] = [];
-
-			for(var key in room_names) {
-				if(room_names[key].indexOf("-") != -1) {
-					var range = room_names[key].split("-");
-
+$("#secretaryWing").change(function ()  {
+	var roomNameOptions = '';
+	var element = this;
+	
+	$('input[name="wingName"]').each( function () {
+		if($(element).val() == $(this).val()) {
+			var $room = $('#' + $(this).attr('data-room-id'));
+			var roomNames = $room.val().split(",");
+			var roomNumbers = [];
+			for(var key in roomNames) {
+				if(roomNames[key].indexOf("-") != -1) {
+					var range = roomNames[key].split("-");
+	
 					if(range.length == 2 && !isNaN(range[0]) && !isNaN(range[1])){
 						var range0 = parseInt(range[0]);
 						var range1 = parseInt(range[1]);
-
+	
 						var start_val = (range0 < range1 ? range0 : range1);
 						var end_val = (range1 < range0 ? range0 : range1);
-
+	
 						for(var val = start_val; val <= end_val; val++) {
-							room_numbers[wing_name].push(val.toString());
+							roomNumbers.push(val.toString());
 						}
-					} else {
-
 					}
 				} else {
-					room_numbers[wing_name].push(room_names[key]);
+					roomNumbers.push(roomNames[key]);
 				}
 			}
-		}
-	});
-
-	var wing_options = '';
-
-	for(var key in room_numbers) {
-		wing_options += '<option value="' + key + '">' + key + '</option>';
-	}
-
-	$("#secretary_wing").html(wing_options).trigger("change");
-});
-
-$("#secretary_wing").change(function ()  {
-	var current_wing = $(this).val();
-	var room_name_options = '';
-
-	for(var key in room_numbers[current_wing]) {
-		room_name_options += '<option value="' + room_numbers[current_wing][key] + '">' + room_numbers[current_wing][key] + '</option>';
-	}
-
-	$("#secretary_room").html(room_name_options);
-});
-
-$("#registration_submit").click(function () {
-	var formData = getFormData($("#registration_form"));
-	
-	formData.room_numbers = room_numbers;
-	
-	$.ajax({
-	    contentType: "application/json",
-	    type: "POST",
-		url : config.getServiceUrl("/society/register"),
-		data:  JSON.stringify(formData),
-		success: function (response) {
-			if(response.success) {
-				response.data
+			resetSelect("#secretaryRoom");
+			for(var key in roomNumbers) {
+				roomNameOptions += '<option value="' + roomNumbers[key] + '">' + roomNumbers[key] + '</option>';
 			}
+			$("#secretaryRoom").append(roomNameOptions);
+			return false;
 		}
 	});
+	
+	
 });
 
-$("#country_name").change(function() {
-	var country_id = $(this).val();
+$("#registrationSubmit").click(function () {
+	var formData = getFormData($("#registrationForm"));
+
+	preValidate();
 	
-	ajax('/state/getByCountryId?countryId=' + country_id, function (response) {
-		var option_str = '<option value="">-Select-</option>';
-		for(var key in response) {
-			option_str += '<option value="' + response[key].countryId + '">' + response[key].stateName + '</option>';
+	if($("#societyWingCount").val() > 0) {
+		if("object" != typeof(formData.roomName)) {
+			formData.roomName = [formData.roomName];
 		}
-		$("#state_name").html(option_str);
-	});
+		if("object" != typeof(formData.wingName)) {
+			formData.wingName = [formData.wingName];
+		}
+	}
+
+	ajax('/society/register', function(jqXHR, textStatus, dataOrError) {
+		if(204 != jqXHR.status) {
+			for(var key in dataOrError) {
+				if("object" == typeof(dataOrError[key])) {
+					for(var ky in dataOrError[key]) {
+						$("#" + ky + "Error").html(dataOrError[key][ky]);
+						$("#" + ky).css('border-color', '#F00');
+					}
+				} else {
+					$("#" + key + "Error").html(dataOrError[key]);
+					$("#" + key).css('border-color', '#F00');
+				}
+			}
+		} else {
+			alert('success');
+		}
+		
+	}, 'PUT', formData);
+	return false;
 });
 
-$("#state_name").change(function(){
-	var state_id = $(this).val();
-	
-	ajax('/city/getByStateId?stateId=' + state_id, function(response) {
-		var option_str = '<option value="">-Select-</option>';
-		for(var key in response){
-			option_str += '<option value="' + response[key].cityId + '">' + response[key].cityName + '</option>';
-		}
-		$("#city_name").html(option_str);
-	});
+$("#countryId").change(function() {
+	var countryId = $(this).val();	
+	resetSelect("#stateId");
+	resetSelect("#cityId");
+	resetSelect("#pincodeId");
+	resetSelect("#localityId");
+	if("" != countryId){
+		ajax('/state/getByCountryId?countryId=' + countryId, function (jqXHR, textStatus, dataOrError) {
+			if(204 != jqXHR.status) {
+				var option_str = "";
+				for(var key in dataOrError) {
+					option_str += '<option value="' + dataOrError[key].stateId + '">' + dataOrError[key].stateName + '</option>';
+				}
+				$("#stateId").append(option_str);
+			} else {
+				resetSelect("#stateId", "No Data Present");
+			}
+		});
+	}
 });
 
-$("#city_name").change(function(){
-	var city_id = $(this).val();
+$("#stateId").change(function(){
+	var stateId = $(this).val();
+
+	resetSelect("#cityId");
+	resetSelect("#pincodeId");
+	resetSelect("#localityId");
 	
-	ajax("/pincode/getByCityId?cityId=" + city_id, function(response){
-		var option_str = "<option value=''>-Select-</option>";
-		for(var key in response){
-			option_str += '<option value="' + response[key].pincodeId + '">' + response[key].pincodeName + '</option>';
-		}
-		
-		$("#pincode_name").html(option_str);
-		
-	});
+	if("" != stateId) {
+		ajax('/city/getByStateId?stateId=' + stateId, function(jqXHR, textStatus, dataOrError) {
+			if(204 != jqXHR.status) {
+				var option_str = "";
+				for(var key in dataOrError){
+					option_str += '<option value="' + dataOrError[key].cityId + '">' + dataOrError[key].cityName + '</option>';
+				}
+				$("#cityId").append(option_str);
+			} else {
+				resetSelect("#cityId", "No Data Present");
+			}
+		});
+	}
 });
 
-$("#pincode_name").change(function(){
-	var pincode_id = $(this).val();
+$("#cityId").change(function(){
+	var cityId = $(this).val();
+
+	resetSelect("#pincodeId");
+	resetSelect("#localityId");
 	
-	ajax("/locality/getByPincodeId?pincodeId=" + pincode_id, function(response){
-		var option_str = "<option value=''>-Select-</option>";
-		
-		for(var key in response){
-			option_str += '<option value="' + response[key].localityId + '">' + response[key].localityName + '</option>';
-		}
-		
-		$("#locality_name").html(option_str);
-	});
+	if("" != cityId) {
+		ajax("/pincode/getByCityId?cityId=" + cityId, function(jqXHR, textStatus, dataOrError){
+			if(204 != jqXHR.status){
+				var option_str = "";
+				for(var key in dataOrError){
+					option_str += '<option value="' + dataOrError[key].pincodeId + '">' + dataOrError[key].pincodeName + '</option>';
+				}
+				$("#pincodeId").append(option_str);
+			} else{
+				resetSelect("#pincodeId", "No Data Present");
+			}
+		});
+	}
+});
+
+$("#pincodeId").change(function(){
+	var pincodeId = $(this).val();
+
+	resetSelect("#localityId");
+	
+	if("" != pincodeId) {
+		ajax("/locality/getByPincodeId?pincodeId=" + pincodeId, function(jqXHR, textStatus, dataOrError){
+			if(204 != jqXHR.status) {
+				var option_str = "";
+				for(var key in dataOrError){
+					option_str += '<option value="' + dataOrError[key].localityId + '">' + dataOrError[key].localityName + '</option>';
+				}
+				
+				$("#localityId").append(option_str);
+			} else {
+				resetSelect("#localityId", "No Data Present");
+			}
+		});
+	}
 });

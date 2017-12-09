@@ -24,7 +24,7 @@ $("#state_submit").click(function () {
 	var formData = getFormData($("#state_form"));
 	
 	if(stateEdit == false) {
-		ajax('/state/add', function(jqXHR, textStatus, dataOrError) {
+		ajax('/state/save', function(jqXHR, textStatus, dataOrError) {
 			if(jqXHR.status != 204) {
 				$('#stateListBody tr').removeClass('warning success');
 				var trBody = '<tr id="state_' + dataOrError.stateId + '" class="success">' +
@@ -42,8 +42,8 @@ $("#state_submit").click(function () {
 			}
 		}, 'PUT', formData);	
 	} else {
-		formdata.stateId = stateEditId;
-		ajax('/state/edit', function(jqXHR, textStatus, dataOrError) {
+		formData.stateId = stateEditId;
+		ajax('/state/save', function(jqXHR, textStatus, dataOrError) {
 			if(jqXHR.status != 204) {
 				$('#stateListBody tr').removeClass('warning success');
 				var trBody = '<td>' + $("#countryId option:selected").text() + '</td>' + 
@@ -71,6 +71,7 @@ function getstateEdit(id){
 	$("#state_" + id).addClass("warning");
 	
 	ajax('/state/getByStateId?stateId='+id,function(jqXHR, textStatus, dataOrError){
+		$("#countryId").val(dataOrError.countryId);
 		$("#stateName").val(dataOrError.stateName);
 		$("#stateName").focus();
 	});	

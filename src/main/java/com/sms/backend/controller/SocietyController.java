@@ -28,7 +28,7 @@ public class SocietyController extends AbstractController {
 	public ModelAndView registartion(HttpServletRequest request) throws ClientProtocolException, IOException {
 		client.setAuthHeader(request.getAttribute(config.getAdminAuthCookieName()).toString());
 		
-		JsonNode countries = client.getForJson(config.getServiceUrl("/address/getCountries"));
+		JsonNode countries = client.getForJson(config.getServiceUrl("/country/getAll"));
 		//JsonNode countries = client.getForJson("http://localhost:8080/address/getCountries");
 		
 		Map data = new HashMap();

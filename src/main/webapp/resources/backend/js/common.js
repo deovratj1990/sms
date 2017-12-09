@@ -3,7 +3,7 @@ function getFormData($form){
     var formData = {};
     
     for(var index in serializedArray) {
-    	if(formData[serializedArray[index].name]) {
+    	if(typeof(formData[serializedArray[index].name]) != 'undefined') {
     		if(!(formData[serializedArray[index].name] instanceof Array)) {
     			var tempVal = formData[serializedArray[index].name];
     			
@@ -51,7 +51,13 @@ function ajax(url, callback, method, data) {
 	};
 	
 	if(method == 'POST' || method == 'PUT') {
-		options.data = data;
+		if(typeof(data) == 'object') {
+			options.contentType = 'application/json';
+			
+			options.data = JSON.stringify(data);
+		} else {
+			options.data = data;
+		}
 	}
 	
 	$.ajax(options);
@@ -86,6 +92,14 @@ var cookie = {
 			document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
 		}
 };
+
+function resetSelect(selector, optionText){
+	if(optionText) {
+		$(selector).html('<option value="">-' + optionText + '-</option>');
+	} else {
+		$(selector).html('<option value="">-Select-</option>');
+	}
+}
 
 $(function(){
 	$("#logoutBtn").click(function(){
