@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -50,20 +51,31 @@ public class Client {
 		
 		HttpResponse response = httpClient.execute(request);
 		
-		BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+		HttpEntity responseEntity = response.getEntity();
 		
 		StringBuilder stringResponse = new StringBuilder();
-		String line;
-		
-		while((line = reader.readLine()) != null) {
-			stringResponse.append(line);
+
+		if(null != responseEntity) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(responseEntity.getContent()));
+
+			String line;
+			
+			while((line = reader.readLine()) != null) {
+				stringResponse.append(line);
+			}
+		} else {
+			stringResponse.append("");
 		}
 		
 		return stringResponse.toString();
 	}
 	
 	private JsonNode parseJsonResponse(String response) throws IOException, JsonProcessingException {
-		return new ObjectMapper().readTree(response);
+		if(0 != response.length()) {
+			return new ObjectMapper().readTree(response);
+		} else {
+			return null;
+		}
 	}
 	
 	public void setHeader(String name, String value) {

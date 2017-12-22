@@ -4,8 +4,7 @@
 			<strong>LOGIN</strong>
 		</div>
 		<div class="panel-body">
-			<form class="form-horizontal" id="loginForm" name="loginForm"
-				onsubmit="return false;">
+			<form class="form-horizontal" id="loginForm" name="loginForm" onsubmit="return false;">
 				<div class="text-center msg hidden" id="formError"></div>
 				<div class="form-group">
 					<label class="control-label col-sm-4" for="userEmail">Email:</label>
@@ -24,8 +23,7 @@
 					<div class="col-sm-4 msg hidden" id="userPasswordError"></div>
 				</div>
 				<div class="form-group text-center">
-					<input type="button" class="btn btn-default" id="loginSubmit"
-						value="Login" />
+					<input type="submit" class="btn btn-default" id="loginSubmit" value="Login" />
 				</div>
 			</form>
 		</div>

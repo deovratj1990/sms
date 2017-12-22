@@ -1,10 +1,5 @@
 var roomNumbers = {};
 
-function preValidate() {
-	$('.msg').text('');
-	$(':input').css('border-color', "");
-}
-
 $("#societyWingCount").keyup(function (event) {
 	if((48 <= event.which && 57 >= event.which) || (96 <= event.which && 105 >= event.which) || 8 == event.which || 46 == event.which) {
 		var wingCount = (!isNaN($(this).val()) ? parseInt($(this).val()) : 0);

@@ -1,3 +1,8 @@
+function preValidate() {
+	$('.msg').text('');
+	$(':input').css('border-color', "");
+}
+
 function getFormData($form){
     var serializedArray = $form.serializeArray();
     var formData = {};
@@ -33,7 +38,7 @@ function ajax(url, callback, method, data) {
 			var accessToken = cookie.get(config.ADMIN_AUTH_COOKIE_NAME);
 			
 			if(accessToken) {
-				jqXHR.setRequestHeader('Authorization', 'Bearer ' + cookie.get(config.ADMIN_AUTH_COOKIE_NAME));
+				jqXHR.setRequestHeader('Authorization', 'Bearer ' + accessToken);
 			}
 		},
 		success: function (data, textStatus, jqXHR) {

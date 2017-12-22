@@ -2,12 +2,14 @@
 <div class="col-sm-12" align="center">
 	<form class="form-horizontal" id="country_form"
 		onsubmit="return false;">
+		<div class="text-center msg hidden" id="formError"></div>
 		<div class="form-group">
 			<label class="control-label col-sm-4" for="countryName">Country
-				Name:</label>
+				Name</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="countryName"
-					name="countryName" placeholder="Enter Country Name" autofocus>
+					name="countryName" autofocus>
+				<div class="text-danger msg" id="countryNameError"></div>
 			</div>
 		</div>
 		<div class="form-group" align="center">
@@ -28,7 +30,7 @@
 					<!-- <th width="15%">Sr No.</th>-->
 					<th width="70%">Country</th>
 					<th width="15%">Modify</th>
-					<th width="15%">Delete</th>
+					<th width="15%">State</th>
 				</tr>
 			</thead>
 			<tbody id="countryListBody">
@@ -40,7 +42,7 @@
 							<td>${countryList.get(index).get("countryName").asText()}</td>
 							<td><a href="javascript:void(0);"
 								onClick="getCountryEdit(${countryList.get(index).get("countryId").asInt()})">Edit</a></td>
-							<td><a href="javascript:void(0);">Delete</a></td>
+							<td><a href="/admin/address/state?countryId=${countryList.get(index).get("countryId").asInt()}">Add</a></td>
 						</tr>
 					</c:forEach>
 				</c:if>

@@ -3,64 +3,48 @@ var stateEditId = 0;
 
 $("#state_submit").click(function () {
 	
-	if("" == $("#countryId").val()) {
-		$("#countryIdError").html("Select Country!");
-		$("#countryId").css("borderColor", "#F00");
-		return false;
-	} else {
-		$("#countryIdError").html('');
-		$("#countryId").css("borderColor", "");
-	}
-	
-	if($("#stateName").val() == ''){
-		$("#stateName").css('borderColor', '#F00');
-		$("#stateName").attr('placeHolder', 'Cannot be blank.');
-		return false;
-	} else {
-		$("#stateName").css('borderColor', '');
-		$("#stateName").attr('placeHolder', 'Enter State Name');
-	}
-	
 	var formData = getFormData($("#state_form"));
 	
-	if(stateEdit == false) {
-		ajax('/state/save', function(jqXHR, textStatus, dataOrError) {
-			if(jqXHR.status != 204) {
-				$('#stateListBody tr').removeClass('warning success');
-				var trBody = '<tr id="state_' + dataOrError.stateId + '" class="success">' +
-									'<td>' + $("#countryId option:selected").text() + '</td>' + 
-									'<td>' + dataOrError.stateName + '</td>' + 
-									'<td><a href="javascript:void(0);" onClick="getstateEdit(' + dataOrError.stateId + ')">Edit</a></td>' +
-									'<td><a href="javascript:void(0);">Delete</a></td>' +
-								'</tr>';
-				$("#state_form").trigger('reset');	
-				$("#stateName").css('borderColor', '');
-				$("#stateListBody").html(trBody + $("#stateListBody").html());
-			} else {
-				$("#stateName").css('borderColor', '#F00');
-				alert('Data already exist');
-			}
-		}, 'PUT', formData);	
-	} else {
+	preValidate();
+
+	if(stateEdit == true) {
 		formData.stateId = stateEditId;
-		ajax('/state/save', function(jqXHR, textStatus, dataOrError) {
-			if(jqXHR.status != 204) {
-				$('#stateListBody tr').removeClass('warning success');
-				var trBody = '<td>' + $("#countryId option:selected").text() + '</td>' + 
-							 '<td>' + dataOrError.stateName + '</td>' + 
-							 '<td><a href="javascript:void(0);" onClick="getstateEdit(' + stateEditId + ')">Edit</a></td>' +
-							 '<td><a href="javascript:void(0);">Delete</a></td>';
-				$("#state_form").trigger('reset');	
+	}
+
+	ajax('/state/save', function(jqXHR, textStatus, dataOrError) {
+		if(200 == jqXHR.status) {
+			$('#stateListBody tr').removeClass('warning success');
+			var trHeader = '<tr id="state_' + dataOrError.data.stateId + '" class="success">';
+			var trBody = 		'<td>' + formData.stateName + '</td>' + 
+								'<td><a href="javascript:void(0);" onClick="getstateEdit(' + dataOrError.data.stateId + ')">Edit</a></td>' +
+								'<td><a href="/admin/address/city?stateId=' + dataOrError.data.stateId + '">Add</a></td>';
+			var trFooter = '</tr>';
+			if(true == stateEdit) {
 				$("#state_" + stateEditId).html(trBody);
 				$("#state_" + stateEditId).addClass('success');
 				stateEdit = false;
 				stateEditId = 0;
 			} else {
-				$("#stateName").css('borderColor', '#F00');
-				alert('Data already exist');
+				$("#stateListBody").html(trHeader + trBody + trFooter + $("#stateListBody").html());
 			}
-		}, 'PUT', formData);
-	}
+			$("#state_form").trigger('reset');	
+		} else if(409 == jqXHR.status) {
+			$('#formError').addClass('text-danger');
+			$('#formError').removeClass('hidden');
+			$("#formError").html("Data already present!");
+			$("#stateName").css('border-color', '#F00');
+			return false;
+		} else if(400 == jqXHR.status) {
+			if(dataOrError.messages) {
+				$("#stateNameError").html(dataOrError.messages['stateName']);
+				$("#stateName").css('border-color', '#F00');
+			}
+			return false;
+		} else {
+			alert("Something went wrong. Please try again later!");
+			return false;
+		}
+	}, 'PUT', formData);
 });
 
 function getstateEdit(id){
@@ -71,7 +55,6 @@ function getstateEdit(id){
 	$("#state_" + id).addClass("warning");
 	
 	ajax('/state/getByStateId?stateId='+id,function(jqXHR, textStatus, dataOrError){
-		$("#countryId").val(dataOrError.countryId);
 		$("#stateName").val(dataOrError.stateName);
 		$("#stateName").focus();
 	});	

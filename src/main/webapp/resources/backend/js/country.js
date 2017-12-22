@@ -2,54 +2,48 @@ var countryEdit = false;
 var countryEditId = 0;
 
 $("#country_submit").click(function () {
-	if($("#countryName").val() == ''){
-		$("#countryName").css('borderColor', '#F00');
-		$("#countryName").attr('placeHolder', 'Cannot be blank.');
-		return false;
-	} else {
-		$("#countryName").css('borderColor', '');
-		$("#countryName").attr('placeHolder', 'Enter Country Name');
-	}
-	
 	var formData = getFormData($("#country_form"));
 	
-	if(countryEdit == false) {
-		ajax('/country/add', function(jqXHR, textStatus, dataOrError) {
-			if(jqXHR.status != 204) {
-				$('#countryListBody tr').removeClass('warning success');
-				$("#country_form")[0].reset();	
-				var trBody = '<tr id="country_' + dataOrError.countryId + '" class="success">' +
-									'<td>' + dataOrError.countryName + '</td>' + 
-									'<td><a href="javascript:void(0);" onClick="getCountryEdit(' + dataOrError.countryId + ')">Edit</a></td>' +
-									'<td><a href="javascript:void(0);">Delete</a></td>' +
-								'</tr>';
-				$("#countryName").css('borderColor', '');
-				$("#countryListBody").html(trBody + $("#countryListBody").html());
-			} else {
-				$("#countryName").css('borderColor', '#F00');
-				alert('Data already exist');
-			}
-		}, 'PUT', formData);	
-	} else {
+	preValidate();
+
+	if(countryEdit == true) {
 		formData.countryId = countryEditId;
-		
-		ajax('/country/edit', function(jqXHR, textStatus, dataOrError) {
-			if(jqXHR.status != 204) {
-				$('#countryListBody tr').removeClass('warning success');
-				$("#country_form")[0].reset();	
-				var trBody = '<td>' + dataOrError.countryName + '</td>' + 
-							 '<td><a href="javascript:void(0);" onClick="getCountryEdit(' + countryEditId + ')">Edit</a></td>' +
-							 '<td><a href="javascript:void(0);">Delete</a></td>';
+	}
+
+	ajax('/country/save', function(jqXHR, textStatus, dataOrError) {
+		if(200 == jqXHR.status) {
+			$('#countryListBody tr').removeClass('warning success');
+			var trHeader = '<tr id="country_' + dataOrError.data.countryId + '" class="success">';
+			var trBody = 		'<td>' + formData.countryName + '</td>' + 
+								'<td><a href="javascript:void(0);" onClick="getCountryEdit(' + dataOrError.data.countryId + ')">Edit</a></td>' +
+								'<td><a href="/admin/address/state?countryId=' + dataOrError.data.countryId + '">Add</a></td>';
+			var trFooter = '</tr>';
+			if(true == countryEdit) {
 				$("#country_" + countryEditId).html(trBody);
 				$("#country_" + countryEditId).addClass('success');
 				countryEdit = false;
 				countryEditId = 0;
 			} else {
-				$("#countryName").css('borderColor', '#F00');
-				alert('Data already exist');
+				$("#countryListBody").html(trHeader + trBody + trFooter + $("#countryListBody").html());
 			}
-		}, 'PUT', formData);
-	}
+			$("#country_form").trigger('reset');	
+		} else if(409 == jqXHR.status) {
+			$('#formError').addClass('text-danger');
+			$('#formError').removeClass('hidden');
+			$("#formError").html("Data already present!");
+			$("#countryName").css('border-color', '#F00');
+			return false;
+		} else if(400 == jqXHR.status) {
+			if(dataOrError.messages) {
+				$("#countryNameError").html(dataOrError.messages['countryName']);
+				$("#countryName").css('border-color', '#F00');
+			}
+			return false;
+		} else {
+			alert("Something went wrong. Please try again later!");
+			return false;
+		}
+	}, 'PUT', formData);	
 });
 
 function getCountryEdit(id){
