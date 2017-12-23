@@ -29,8 +29,7 @@
 				<tr>
 					<!-- <th width="15%">Sr No.</th>-->
 					<th width="70%">Country</th>
-					<th width="15%">Modify</th>
-					<th width="15%">State</th>
+					<th width="30%">Action</th>
 				</tr>
 			</thead>
 			<tbody id="countryListBody">
@@ -41,8 +40,9 @@
 							<!-- <td>${cntr.count}</td>-->
 							<td>${countryList.get(index).get("countryName").asText()}</td>
 							<td><a href="javascript:void(0);"
-								onClick="getCountryEdit(${countryList.get(index).get("countryId").asInt()})">Edit</a></td>
-							<td><a href="/admin/address/state?countryId=${countryList.get(index).get("countryId").asInt()}">Add</a></td>
+								onClick="getCountryEdit(${countryList.get(index).get("countryId").asInt()})">Modify</a>
+								 | <a href="/admin/address/state?countryId=${countryList.get(index).get("countryId").asInt()}">View State</a>
+							</td>
 						</tr>
 					</c:forEach>
 				</c:if>

@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="col-sm-12" align="center">
 	<form class="form-horizontal" id="registrationForm">
+		<div class="text-center msg hidden" id="formError"></div>
 		<div class="form-group">
 			<label class="control-label col-sm-4" for="societyName">Name:</label>
 			<div class="col-sm-4">
@@ -38,6 +39,15 @@
 					<option value="">-Select-</option>
 				</select>
 				<div class="text-danger msg" id="cityIdError"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-4" for="areaId">Area:</label>
+			<div class="col-sm-4">
+				<select class="form-control" id="areaId" name="areaId">
+					<option value="">-Select-</option>
+				</select>
+				<div class="text-danger msg" id="areaIdError"></div>
 			</div>
 		</div>
 		<div class="form-group">

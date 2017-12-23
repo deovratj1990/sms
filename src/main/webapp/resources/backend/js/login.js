@@ -12,7 +12,7 @@ $("#loginSubmit").click(function(){
 	ajax("/user/login", function(jqXHR, textStatus, dataOrError){
 		console.log(dataOrError);
 
-		if(200 == jqXHR.status) {
+		if(HttpStatus.OK == jqXHR.status) {
 			cookie.set(config.ADMIN_AUTH_COOKIE_NAME, dataOrError.accessToken, 1);
 			location.assign(config.ADMIN_DASHBOARD_URL);
 		} else {

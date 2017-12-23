@@ -12,12 +12,12 @@ $("#state_submit").click(function () {
 	}
 
 	ajax('/state/save', function(jqXHR, textStatus, dataOrError) {
-		if(200 == jqXHR.status) {
+		if(HttpStatus.OK == jqXHR.status) {
 			$('#stateListBody tr').removeClass('warning success');
 			var trHeader = '<tr id="state_' + dataOrError.data.stateId + '" class="success">';
 			var trBody = 		'<td>' + formData.stateName + '</td>' + 
-								'<td><a href="javascript:void(0);" onClick="getstateEdit(' + dataOrError.data.stateId + ')">Edit</a></td>' +
-								'<td><a href="/admin/address/city?stateId=' + dataOrError.data.stateId + '">Add</a></td>';
+								'<td><a href="javascript:void(0);" onClick="getstateEdit(' + dataOrError.data.stateId + ')">Modify</a>' +
+								' | <a href="/admin/address/city?stateId=' + dataOrError.data.stateId + '">View City</a></td>';
 			var trFooter = '</tr>';
 			if(true == stateEdit) {
 				$("#state_" + stateEditId).html(trBody);
@@ -28,13 +28,13 @@ $("#state_submit").click(function () {
 				$("#stateListBody").html(trHeader + trBody + trFooter + $("#stateListBody").html());
 			}
 			$("#state_form").trigger('reset');	
-		} else if(409 == jqXHR.status) {
+		} else if(HttpStatus.CONFLICT == jqXHR.status) {
 			$('#formError').addClass('text-danger');
 			$('#formError').removeClass('hidden');
 			$("#formError").html("Data already present!");
 			$("#stateName").css('border-color', '#F00');
 			return false;
-		} else if(400 == jqXHR.status) {
+		} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
 			if(dataOrError.messages) {
 				$("#stateNameError").html(dataOrError.messages['stateName']);
 				$("#stateName").css('border-color', '#F00');

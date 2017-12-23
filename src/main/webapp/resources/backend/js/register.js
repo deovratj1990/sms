@@ -101,20 +101,29 @@ $("#registrationSubmit").click(function () {
 	}
 
 	ajax('/society/register', function(jqXHR, textStatus, dataOrError) {
-		if(204 != jqXHR.status) {
-			for(var key in dataOrError) {
-				if("object" == typeof(dataOrError[key])) {
-					for(var ky in dataOrError[key]) {
-						$("#" + ky + "Error").html(dataOrError[key][ky]);
+		if(HttpStatus.OK == jqXHR.status) {
+
+		} else if(HttpStatus.CONFLICT == jqXHR.status) {
+			$('#formError').addClass('text-danger');
+			$('#formError').removeClass('hidden');
+			$("#formError").html("Data already present!");
+			return false;
+		} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
+			for(var key in dataOrError.messages) {
+				if("object" == typeof(dataOrError.messages[key])) {
+					for(var ky in dataOrError.messages[key]) {
+						$("#" + ky + "Error").html(dataOrError.messages[key][ky]);
 						$("#" + ky).css('border-color', '#F00');
 					}
 				} else {
-					$("#" + key + "Error").html(dataOrError[key]);
+					$("#" + key + "Error").html(dataOrError.messages[key]);
 					$("#" + key).css('border-color', '#F00');
 				}
 			}
+			return false;
 		} else {
-			alert('success');
+			alert("Something went wrong. Please try again later!");
+			return false;
 		}
 		
 	}, 'PUT', formData);
@@ -129,7 +138,7 @@ $("#countryId").change(function() {
 	resetSelect("#localityId");
 	if("" != countryId){
 		ajax('/state/getByCountryId?countryId=' + countryId, function (jqXHR, textStatus, dataOrError) {
-			if(204 != jqXHR.status) {
+			if(HttpStatus.NO_CONTENT != jqXHR.status) {
 				var option_str = "";
 				for(var key in dataOrError) {
 					option_str += '<option value="' + dataOrError[key].stateId + '">' + dataOrError[key].stateName + '</option>';
@@ -151,7 +160,7 @@ $("#stateId").change(function(){
 	
 	if("" != stateId) {
 		ajax('/city/getByStateId?stateId=' + stateId, function(jqXHR, textStatus, dataOrError) {
-			if(204 != jqXHR.status) {
+			if(HttpStatus.NO_CONTENT != jqXHR.status) {
 				var option_str = "";
 				for(var key in dataOrError){
 					option_str += '<option value="' + dataOrError[key].cityId + '">' + dataOrError[key].cityName + '</option>';
@@ -167,12 +176,34 @@ $("#stateId").change(function(){
 $("#cityId").change(function(){
 	var cityId = $(this).val();
 
+	resetSelect("#areaId");
 	resetSelect("#pincodeId");
 	resetSelect("#localityId");
 	
 	if("" != cityId) {
-		ajax("/pincode/getByCityId?cityId=" + cityId, function(jqXHR, textStatus, dataOrError){
-			if(204 != jqXHR.status){
+		ajax("/area/getByCityId?cityId=" + cityId, function(jqXHR, textStatus, dataOrError){
+			if(HttpStatus.NO_CONTENT != jqXHR.status){
+				var option_str = "";
+				for(var key in dataOrError){
+					option_str += '<option value="' + dataOrError[key].areaId + '">' + dataOrError[key].areaName + '</option>';
+				}
+				$("#areaId").append(option_str);
+			} else{
+				resetSelect("#areaId", "No Data Present");
+			}
+		});
+	}
+});
+
+$("#areaId").change(function(){
+	var areaId = $(this).val();
+
+	resetSelect("#pincodeId");
+	resetSelect("#localityId");
+	
+	if("" != areaId) {
+		ajax("/pincode/getByAreaId?areaId=" + areaId, function(jqXHR, textStatus, dataOrError){
+			if(HttpStatus.NO_CONTENT != jqXHR.status){
 				var option_str = "";
 				for(var key in dataOrError){
 					option_str += '<option value="' + dataOrError[key].pincodeId + '">' + dataOrError[key].pincodeName + '</option>';
@@ -192,7 +223,7 @@ $("#pincodeId").change(function(){
 	
 	if("" != pincodeId) {
 		ajax("/locality/getByPincodeId?pincodeId=" + pincodeId, function(jqXHR, textStatus, dataOrError){
-			if(204 != jqXHR.status) {
+			if(HttpStatus.NO_CONTENT != jqXHR.status) {
 				var option_str = "";
 				for(var key in dataOrError){
 					option_str += '<option value="' + dataOrError[key].localityId + '">' + dataOrError[key].localityName + '</option>';

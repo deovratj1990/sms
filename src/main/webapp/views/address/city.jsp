@@ -30,9 +30,8 @@
 			<thead>
 				<tr>
 					<!-- <th width="15%">Sr No.</th>-->
-					<th width="35%">City</th>
-					<th width="15%">Modify</th>
-					<th width="15%">Pincode</th>
+					<th width="70%">City</th>
+					<th width="30%">Action</th>
 				</tr>
 			</thead>
 			<tbody id="cityListBody">
@@ -42,8 +41,8 @@
 						<tr id="city_${cityList.get(index).get("cityId").asInt()}">
 							<td>${cityList.get(index).get("cityName").asText()}</td>
 							<td><a href="javascript:void(0);"
-								onClick="getcityEdit(${cityList.get(index).get("cityId").asInt()})">Edit</a></td>
-							<td><a href="/admin/address/pincode?cityId=${cityList.get(index).get("cityId").asInt()}">Add</a></td>
+								onClick="getcityEdit(${cityList.get(index).get("cityId").asInt()})">Modify</a>
+								 | <a href="/admin/address/area?cityId=${cityList.get(index).get("cityId").asInt()}">View Area</a></td>
 						</tr>
 					</c:forEach>
 				</c:if>

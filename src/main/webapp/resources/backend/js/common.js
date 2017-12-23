@@ -68,6 +68,22 @@ function ajax(url, callback, method, data) {
 	$.ajax(options);
 }
 
+function resetSelect(selector, optionText){
+	if(optionText) {
+		$(selector).html('<option value="">-' + optionText + '-</option>');
+	} else {
+		$(selector).html('<option value="">-Select-</option>');
+	}
+}
+
+var HttpStatus = {
+	OK: 200,
+	NO_CONTENT: 204,
+	BAD_REQUEST:400,
+	CONFLICT: 409,
+	INTERNAL_SERVER_ERROR: 500
+};
+
 var cookie = {
 		set: function (cname, cvalue, exdays) {
 		    var d = new Date();
@@ -97,14 +113,6 @@ var cookie = {
 			document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
 		}
 };
-
-function resetSelect(selector, optionText){
-	if(optionText) {
-		$(selector).html('<option value="">-' + optionText + '-</option>');
-	} else {
-		$(selector).html('<option value="">-Select-</option>');
-	}
-}
 
 $(function(){
 	$("#logoutBtn").click(function(){

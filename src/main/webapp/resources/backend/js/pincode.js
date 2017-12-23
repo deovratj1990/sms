@@ -12,12 +12,12 @@ $("#pincode_submit").click(function () {
 	}
 
 	ajax('/pincode/save', function(jqXHR, textStatus, dataOrError) {
-		if(200 == jqXHR.status) {
+		if(HttpStatus.OK == jqXHR.status) {
 			$('#pincodeListBody tr').removeClass('warning success');
 			var trHeader = '<tr id="pincode_' + dataOrError.data.pincodeId + '" class="success">';
 			var trBody = 		'<td>' + formData.pincodeName + '</td>' + 
-								'<td><a href="javascript:void(0);" onClick="getPincodeEdit(' + dataOrError.data.pincodeId + ')">Edit</a></td>' +
-								'<td><a href="/admin/address/locality?pincodeId=' + dataOrError.data.pincodeId + '">Add</a></td>';
+								'<td><a href="javascript:void(0);" onClick="getPincodeEdit(' + dataOrError.data.pincodeId + ')">Modify</a>' +
+								' | <a href="/admin/address/locality?pincodeId=' + dataOrError.data.pincodeId + '">View Locality</a></td>';
 			var trFooter = '</tr>';
 			if(true == pincodeEdit) {
 				$("#pincode_" + pincodeEditId).html(trBody);
@@ -28,13 +28,13 @@ $("#pincode_submit").click(function () {
 				$("#pincodeListBody").html(trHeader + trBody + trFooter + $("#pincodeListBody").html());
 			}
 			$("#pincode_form").trigger('reset');	
-		} else if(409 == jqXHR.status) {
+		} else if(HttpStatus.CONFLICT == jqXHR.status) {
 			$('#formError').addClass('text-danger');
 			$('#formError').removeClass('hidden');
 			$("#formError").html("Data already present!");
 			$("#pincodeName").css('border-color', '#F00');
 			return false;
-		} else if(400 == jqXHR.status) {
+		} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
 			if(dataOrError.messages) {
 				$("#pincodeNameError").html(dataOrError.messages['pincodeName']);
 				$("#pincodeName").css('border-color', '#F00');

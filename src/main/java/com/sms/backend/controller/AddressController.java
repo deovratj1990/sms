@@ -94,8 +94,8 @@ public class AddressController extends AbstractController {
 	    }
 	}
 
-	@RequestMapping(path="/pincode")
-	public ModelAndView pincode(HttpServletRequest request) throws ClientProtocolException, IOException {
+	@RequestMapping(path="/area")
+	public ModelAndView area(HttpServletRequest request) throws ClientProtocolException, IOException {
 
 		client.setAuthHeader(request.getAttribute(config.getAdminAuthCookieName()).toString());
 		
@@ -106,12 +106,42 @@ public class AddressController extends AbstractController {
 		    	return new ModelAndView("redirect:/admin/address/city");
 			} else {
 				JsonNode city = client.getForJson(config.getServiceUrl("/city/getByCityId?cityId=" + request.getParameter("cityId")));
-				JsonNode pincodes = client.getForJson(config.getServiceUrl("/pincode/getByCityId?cityId=" + request.getParameter("cityId")));
+				JsonNode areas = client.getForJson(config.getServiceUrl("/area/getByCityId?cityId=" + request.getParameter("cityId")));
 				
 				if(null == city) {
 					return new ModelAndView("redirect:/admin/address/city");
 				} else {
 					data.put("city", city);
+					data.put("areaList", areas);
+						
+					return render("area", data);
+				}
+			}
+		}
+	    catch (NumberFormatException ex)
+	    {
+	    	return new ModelAndView("redirect:/admin/address/state");
+	    }
+	}
+
+	@RequestMapping(path="/pincode")
+	public ModelAndView pincode(HttpServletRequest request) throws ClientProtocolException, IOException {
+
+		client.setAuthHeader(request.getAttribute(config.getAdminAuthCookieName()).toString());
+		
+		Map data = new HashMap();
+		
+		try{
+			if(0 == Integer.parseInt(request.getParameter("areaId"))) {
+		    	return new ModelAndView("redirect:/admin/address/area");
+			} else {
+				JsonNode area = client.getForJson(config.getServiceUrl("/area/getByAreaId?areaId=" + request.getParameter("areaId")));
+				JsonNode pincodes = client.getForJson(config.getServiceUrl("/pincode/getByAreaId?areaId=" + request.getParameter("areaId")));
+				
+				if(null == area) {
+					return new ModelAndView("redirect:/admin/address/area");
+				} else {
+					data.put("area", area);
 					data.put("pincodeList", pincodes);
 						
 					return render("pincode", data);

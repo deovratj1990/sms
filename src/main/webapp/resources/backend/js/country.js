@@ -11,12 +11,12 @@ $("#country_submit").click(function () {
 	}
 
 	ajax('/country/save', function(jqXHR, textStatus, dataOrError) {
-		if(200 == jqXHR.status) {
+		if(HttpStatus.OK == jqXHR.status) {
 			$('#countryListBody tr').removeClass('warning success');
 			var trHeader = '<tr id="country_' + dataOrError.data.countryId + '" class="success">';
 			var trBody = 		'<td>' + formData.countryName + '</td>' + 
-								'<td><a href="javascript:void(0);" onClick="getCountryEdit(' + dataOrError.data.countryId + ')">Edit</a></td>' +
-								'<td><a href="/admin/address/state?countryId=' + dataOrError.data.countryId + '">Add</a></td>';
+								'<td><a href="javascript:void(0);" onClick="getCountryEdit(' + dataOrError.data.countryId + ')">Modify</a>' +
+								' | <a href="/admin/address/state?countryId=' + dataOrError.data.countryId + '">View State</a></td>';
 			var trFooter = '</tr>';
 			if(true == countryEdit) {
 				$("#country_" + countryEditId).html(trBody);
@@ -27,13 +27,13 @@ $("#country_submit").click(function () {
 				$("#countryListBody").html(trHeader + trBody + trFooter + $("#countryListBody").html());
 			}
 			$("#country_form").trigger('reset');	
-		} else if(409 == jqXHR.status) {
+		} else if(HttpStatus.CONFLICT == jqXHR.status) {
 			$('#formError').addClass('text-danger');
 			$('#formError').removeClass('hidden');
 			$("#formError").html("Data already present!");
 			$("#countryName").css('border-color', '#F00');
 			return false;
-		} else if(400 == jqXHR.status) {
+		} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
 			if(dataOrError.messages) {
 				$("#countryNameError").html(dataOrError.messages['countryName']);
 				$("#countryName").css('border-color', '#F00');

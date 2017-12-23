@@ -17,7 +17,7 @@
 			<div class="col-sm-offset-2 col-sm-8">
 				<input type="submit" class="btn btn-default" id="locality_submit"
 					value="Save" />
-				<input type="button" class="btn btn-default" id="locality_back" value="Back" onclick="location.assign('/admin/address/pincode?cityId=${pincode.get("cityId") }')" />
+				<input type="button" class="btn btn-default" id="locality_back" value="Back" onclick="location.assign('/admin/address/pincode?areaId=${pincode.get("areaId") }')" />
 			</div>
 		</div>
 	</form>
@@ -30,8 +30,8 @@
 			<thead>
 				<tr>
 					<!-- <th width="15%">Sr No.</th>-->
-					<th width="80%">Locality</th>
-					<th width="20%">Modify</th>
+					<th width="70%">Locality</th>
+					<th width="30%">Action</th>
 				</tr>
 			</thead>
 			<tbody id="localityListBody">
@@ -40,8 +40,7 @@
 						varStatus="cntr">
 						<tr id="locality_${localityList.get(index).get("localityId").asInt()}">
 							<td>${localityList.get(index).get("localityName").asText()}</td>
-							<td><a href="javascript:void(0);"
-								onClick="getLocalityEdit(${localityList.get(index).get("localityId").asInt()})">Edit</a></td>
+							<td><a href="javascript:void(0);" onClick="getLocalityEdit(${localityList.get(index).get("localityId").asInt()})">Modify</a></td>
 						</tr>
 					</c:forEach>
 				</c:if>

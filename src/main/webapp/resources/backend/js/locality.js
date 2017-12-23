@@ -12,11 +12,11 @@ $("#locality_submit").click(function () {
 	}
 
 	ajax('/locality/save', function(jqXHR, textStatus, dataOrError) {
-		if(200 == jqXHR.status) {
+		if(HttpStatus.OK == jqXHR.status) {
 			$('#localityListBody tr').removeClass('warning success');
 			var trHeader = '<tr id="locality_' + dataOrError.data.localityId + '" class="success">';
 			var trBody = 		'<td>' + formData.localityName + '</td>' + 
-								'<td><a href="javascript:void(0);" onClick="getLocalityEdit(' + dataOrError.data.localityId + ')">Edit</a></td>';
+								'<td><a href="javascript:void(0);" onClick="getLocalityEdit(' + dataOrError.data.localityId + ')">Modify</a></td>';
 			var trFooter = '</tr>';
 			if(true == localityEdit) {
 				$("#locality_" + localityEditId).html(trBody);
@@ -27,13 +27,13 @@ $("#locality_submit").click(function () {
 				$("#localityListBody").html(trHeader + trBody + trFooter + $("#localityListBody").html());
 			}
 			$("#locality_form").trigger('reset');	
-		} else if(409 == jqXHR.status) {
+		} else if(HttpStatus.CONFLICT == jqXHR.status) {
 			$('#formError').addClass('text-danger');
 			$('#formError').removeClass('hidden');
 			$("#formError").html("Data already present!");
 			$("#localityName").css('border-color', '#F00');
 			return false;
-		} else if(400 == jqXHR.status) {
+		} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
 			if(dataOrError.messages) {
 				$("#localityNameError").html(dataOrError.messages['localityName']);
 				$("#localityName").css('border-color', '#F00');
