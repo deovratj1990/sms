@@ -29,4 +29,4 @@
 		</div>
 	</div>
 </div>
-<script src="/resources/backend/js/login.js"></script>
+<script src="/resources/backend/js/user/login.js"></script>

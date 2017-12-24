@@ -50,4 +50,4 @@
 		</table>
 	</div>
 </div>
-<script src="/resources/backend/js/pincode.js"></script>
+<script src="/resources/backend/js/address/pincode.js"></script>

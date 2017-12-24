@@ -102,6 +102,23 @@
 				<div class="text-danger msg" id="secretaryMobileError"></div>
 			</div>
 		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-4 col-xs-12" for="subscriptionPeriodType">Subscription:</label>
+			<div class="col-sm-2 col-xs-6">
+				<select class="form-control" id="subscriptionPeriodType" name="subscriptionPeriodType">
+					<option value="">-Type-</option>
+					<option value="1">Free</option>
+					<option value="2">Paid</option>
+				</select>
+				<div class="text-danger msg" id="subscriptionPeriodTypeError"></div>
+			</div>
+			<div class="col-sm-2 col-xs-6">
+				<select class="form-control" id="subscriptionPeriodDuration" name="subscriptionPeriodDuration" disabled="disabled">
+					<option value="">-Duration-</option>
+				</select>
+				<div class="text-danger msg" id="subscriptionPeriodDurationError"></div>
+			</div>
+		</div>
 		<div class="form-group" align="center">
 			<div class="col-sm-offset-2 col-sm-8">
 				<input type="submit" class="btn btn-default" id="registrationSubmit" value="Register" />
@@ -109,4 +126,4 @@
 		</div>
 	</form>
 </div>
-<script src="/resources/backend/js/register.js"></script>
+<script src="/resources/backend/js/society/register.js"></script>

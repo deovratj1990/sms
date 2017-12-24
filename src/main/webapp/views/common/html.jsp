@@ -18,7 +18,7 @@
 			}
 		};
 	</script>
-	<script src="/resources/backend/js/common.js"></script>
+	<script src="/resources/backend/js/common/common.js"></script>
 	<jsp:include page="../common/header.jsp" />
 	<jsp:include page="../${CONTROLLER_NAME}/${VIEW_NAME}.jsp" />
 </body>

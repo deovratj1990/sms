@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sms.constant.Constants;
 import com.sms.net.Client;
 
 @RestController
@@ -29,12 +28,24 @@ public class SocietyController extends AbstractController {
 		client.setAuthHeader(request.getAttribute(config.getAdminAuthCookieName()).toString());
 		
 		JsonNode countries = client.getForJson(config.getServiceUrl("/country/getAll"));
-		//JsonNode countries = client.getForJson("http://localhost:8080/address/getCountries");
 		
 		Map data = new HashMap();
 		
-		data.put(Constants.COUNTRY_LIST, countries);
+		data.put("countryList", countries);
 		
-		return render(Constants.SOCIETY_REGISTER, data);
+		return render("register", data);
+	}
+
+	@RequestMapping(path="/subscription")
+	public ModelAndView listing(HttpServletRequest request) throws ClientProtocolException, IOException {
+		client.setAuthHeader(request.getAttribute(config.getAdminAuthCookieName()).toString());
+		
+		JsonNode societies = client.getForJson(config.getServiceUrl("/society/getAllSocietySubscription"));
+		
+		Map data = new HashMap();
+		
+		data.put("societyList", societies);
+		
+		return render("report", data);
 	}
 }

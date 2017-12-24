@@ -50,4 +50,4 @@
 		</table>
 	</div>
 </div>
-<script src="/resources/backend/js/state.js"></script>
+<script src="/resources/backend/js/address/state.js"></script>

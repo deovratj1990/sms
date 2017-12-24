@@ -50,4 +50,4 @@
 		</table>
 	</div>
 </div>
-<script src="/resources/backend/js/city.js"></script>
+<script src="/resources/backend/js/address/city.js"></script>

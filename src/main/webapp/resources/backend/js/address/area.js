@@ -17,7 +17,7 @@ $("#area_submit").click(function () {
 			var trHeader = '<tr id="area_' + dataOrError.data.areaId + '" class="success">';
 			var trBody = 		'<td>' + formData.areaName + '</td>' + 
 								'<td><a href="javascript:void(0);" onClick="getAreaEdit(' + dataOrError.data.areaId + ')">Modify</a>' +
-								' | <a href="/admin/address/area?areaId=' + dataOrError.data.areaId + '">View Pincode</a></td>';
+								' | <a href="/admin/address/pincode?areaId=' + dataOrError.data.areaId + '">View Pincode</a></td>';
 			var trFooter = '</tr>';
 			if(true == areaEdit) {
 				$("#area_" + areaEditId).html(trBody);

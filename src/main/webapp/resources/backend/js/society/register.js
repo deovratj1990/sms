@@ -5,28 +5,30 @@ $("#societyWingCount").keyup(function (event) {
 		var wingCount = (!isNaN($(this).val()) ? parseInt($(this).val()) : 0);
 		
 	    var string = '';
-	    var wingCol = 0
-	
-	    if(wingCount < 4){
-	    	wingCol = Math.round(12 / wingCount);
-	    } else {
-	    	wingCol = 3;
-	    }
 		
 		var totalElement = 0;
 	    var count = 0;
 	
-	    for(var i = 0 ; i < Math.ceil(wingCount/4) ; i++){
-			string += '<div class="form-group">';
-	
-			
-			for(var j = 1 ; j <= wingCount && j <= 4 && totalElement < wingCount ; j++){
-			  string += ' <div class="col-sm-'+wingCol+'" style="margin-top:5px;"> ';
-			  string += '  <input type="text" class="form-control wingName" id="wingName_' + totalElement + '" name="wingName" data-room-id="roomName_' + totalElement + '" placeholder="Wing">';
-			  string += '  <div class="text-danger msg" id="wingName_' + totalElement + 'Error"></div>';
-			  string += '  <textarea class="form-control roomName" rows="5" id="roomName_' + totalElement + '" name="roomName" placeholder="Room" style="margin-top:5px;"></textarea>';
-			  string += '  <div class="text-danger msg" id="roomName_' + totalElement + 'Error"></div>';
-			  string += ' </div>';
+	    for(var i = 1 ; i <= Math.ceil(wingCount/3) ; i++){
+	    	string += '<div class="form-group">';	
+	    	
+	    	if(i > (wingCount / 3)) {
+	    		if(1 == (wingCount % 3)) {
+	    			string += '<div class="col-sm-4" style="margin-top:5px;"></div>'	    			
+	    		} else if(2 == (wingCount % 3)) {
+	    			string += '<div class="col-sm-2" style="margin-top:5px;"></div>'	    			
+	    		}
+	    	}
+
+	    	//alert(wingCol);
+	    	
+			for(var j = 1 ; j <= wingCount && j <= 3 && totalElement < wingCount ; j++){
+			  string += '<div class="col-sm-4" style="margin-top:5px;">' +
+					    '  <input type="text" class="form-control wingName" id="wingName_' + totalElement + '" name="wingName" data-room-id="roomName_' + totalElement + '" placeholder="Wing">' +
+					    '  <div class="text-danger msg" id="wingName_' + totalElement + 'Error"></div>' +
+					    '  <textarea class="form-control roomName" rows="5" id="roomName_' + totalElement + '" name="roomName" placeholder="Room" style="margin-top:5px;"></textarea>' +
+					    '  <div class="text-danger msg" id="roomName_' + totalElement + 'Error"></div>' +
+					    '</div>';
 			  totalElement ++;
 			}
 	
@@ -101,12 +103,22 @@ $("#registrationSubmit").click(function () {
 	}
 
 	ajax('/society/register', function(jqXHR, textStatus, dataOrError) {
-		if(HttpStatus.OK == jqXHR.status) {
-
+		if(HttpStatus.NO_CONTENT == jqXHR.status) {
+			$("#wingForm").html("");
+			$("#registrationForm").trigger("reset");
+			$("#subscriptionPeriodDuration").html('<option value="">-Duration-</option>');
+			$("#subscriptionPeriodDuration").attr("disabled", true);
+			$('#formError').removeClass('text-danger');
+			$('#formError').addClass('text-success');
+			$('#formError').removeClass('hidden');
+			$("#formError").html("Data Successfully Saved!");
+			$("html, body").animate({ scrollTop: 0 }, "slow");
+			return false;
 		} else if(HttpStatus.CONFLICT == jqXHR.status) {
 			$('#formError').addClass('text-danger');
 			$('#formError').removeClass('hidden');
 			$("#formError").html("Data already present!");
+			$("html, body").animate({ scrollTop: 0 }, "slow");
 			return false;
 		} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
 			for(var key in dataOrError.messages) {
@@ -234,5 +246,22 @@ $("#pincodeId").change(function(){
 				resetSelect("#localityId", "No Data Present");
 			}
 		});
+	}
+});
+
+$("#subscriptionPeriodType").change(function(){
+	var subscriptionPeriodType = $(this).val();
+	
+	if("" != subscriptionPeriodType) {
+		if(1 == subscriptionPeriodType) {
+			$("#subscriptionPeriodDuration").attr("disabled", false);
+			$("#subscriptionPeriodDuration").html('<option value="3">3 Month</option>');
+		} else {
+			$("#subscriptionPeriodDuration").attr("disabled", false);
+			$("#subscriptionPeriodDuration").html('<option value="12">1 Year</option>');
+		}
+	} else {
+		$("#subscriptionPeriodDuration").attr("disabled", true);
+		$("#subscriptionPeriodDuration").html('<option value="">-Duration-</option>');
 	}
 });

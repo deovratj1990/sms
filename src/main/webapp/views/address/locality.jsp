@@ -48,4 +48,4 @@
 		</table>
 	</div>
 </div>
-<script src="/resources/backend/js/locality.js"></script>
+<script src="/resources/backend/js/address/locality.js"></script>
