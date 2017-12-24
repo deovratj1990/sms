@@ -37,7 +37,7 @@ public class SocietyController extends AbstractController {
 	}
 
 	@RequestMapping(path="/subscription")
-	public ModelAndView listing(HttpServletRequest request) throws ClientProtocolException, IOException {
+	public ModelAndView subscription(HttpServletRequest request) throws ClientProtocolException, IOException {
 		client.setAuthHeader(request.getAttribute(config.getAdminAuthCookieName()).toString());
 		
 		JsonNode societies = client.getForJson(config.getServiceUrl("/society/getAllSocietySubscription"));
@@ -46,6 +46,6 @@ public class SocietyController extends AbstractController {
 		
 		data.put("societyList", societies);
 		
-		return render("report", data);
+		return render("subscription", data);
 	}
 }
