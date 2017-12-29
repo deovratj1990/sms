@@ -19,6 +19,7 @@
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#">Society <span class="caret"></span></a>
 					<ul class="dropdown-menu">
+						<li class=""><a href="/admin/society/registration">Registration</a></li>
 						<li class=""><a href="/admin/society/subscription">Subscription</a></li>
 					</ul>
 				</li>

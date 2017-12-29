@@ -23,15 +23,53 @@
 			<thead>
 				<tr>
 					<th width="20%">Name</th>
-					<th width="30%">Locality</th>
+					<th width="20%">Locality</th>
 					<th width="10%">Registered</th>
 					<th width="10%">Valid Till</th>
 					<th width="10%">Type</th>
+					<th width="10%">Status</th>
 					<th width="20%">Action</th>
 				</tr>
 			</thead>
 			<tbody id="societyListBody">
+				<c:if test="${societyList.size() > 0}">
+					<c:forEach begin="0" end="${societyList.size() - 1}" var="index" varStatus="cntr">
+						<tr id="subscription_${cntr.count}" class="accordion-toggle" data-toggle="collapse" 
+						data-parent="#OrderPackages" data-target=".subscription_detail_${cntr.count}">
+							<td>${societyList.get(index).get("societyName").asText()}</td>
+							<td>${societyList.get(index).get("pincodeName").asText()} - ${societyList.get(index).get("localityName").asText()}</td>
+							<td>${societyList.get(index).get("subscriptionPeriodStartDate").asText()}</td>
+							<td>${societyList.get(index).get("subscriptionPeriodEndDate").asText()}</td>
+							<td>${societyList.get(index).get("subscriptionPeriodType").asText()}</td>
+							<td>${societyList.get(index).get("subscriptionPeriodStatus").asText()}</td>
+							<td>${societyList.get(index).get("countryName").asText()}</td>
+						</tr>
+						<tr>
+							<td colspan="7" class="hiddenRow">
+								<div class="accordion-body collapse subscription_detail_${cntr.count}" id="accordion${cntr.count}">
+									<table class="table table-hover table-striped">
+										<thead>
+											<tr>
+												<th width="20%">Name</th>
+												<th width="20%">Locality</th>
+												<th width="10%">Registered</th>
+												<th width="10%">Valid Till</th>
+												<th width="10%">Type</th>
+												<th width="10%">Status</th>
+												<th width="20%">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</td>
+						</tr>
+						<tr class="hiddenRow"></tr>
+					</c:forEach>
+				</c:if>
 			</tbody>
 		</table>
 	</div>
-</div><script src="/resources/backend/js/society/report.js"></script>
+</div>
+<script src="/resources/backend/js/society/subscription.js"></script>

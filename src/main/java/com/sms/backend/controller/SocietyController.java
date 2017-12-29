@@ -40,11 +40,11 @@ public class SocietyController extends AbstractController {
 	public ModelAndView subscription(HttpServletRequest request) throws ClientProtocolException, IOException {
 		client.setAuthHeader(request.getAttribute(config.getAdminAuthCookieName()).toString());
 		
-		JsonNode societies = client.getForJson(config.getServiceUrl("/society/getAllSocietySubscription"));
+		JsonNode response = client.getForJson(config.getServiceUrl("/society/getAllSocietySubscription"));
 		
 		Map data = new HashMap();
 		
-		data.put("societyList", societies);
+		data.put("societyList", response.get("societySubscriptionList"));
 		
 		return render("subscription", data);
 	}
