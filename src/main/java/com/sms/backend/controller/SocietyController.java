@@ -43,8 +43,12 @@ public class SocietyController extends AbstractController {
 		JsonNode response = client.getForJson(config.getServiceUrl("/society/getAllSocietySubscription"));
 		
 		Map data = new HashMap();
-		
-		data.put("societyList", response.get("societySubscriptionList"));
+
+		if(null != response ) {
+			data.put("societyList", response.get("societySubscriptionList"));
+		} else {
+			data.put("societyList", null);
+		}
 		
 		return render("subscription", data);
 	}
