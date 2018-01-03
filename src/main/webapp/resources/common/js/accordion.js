@@ -1,43 +1,99 @@
-function Accordion(accordionId, options) {
-	var objAccordion = this;
+var AccordionFactory = (function () {
+	var EventName = {
+	}
+		EXPAND: 0,
+		COLLAPSE: 1
+	};
 	
-	objAccordion.$accordion = $('#' + accordionId);
-	objAccordion.options = options;
+	var EventPhases = [
+		[
+			'preExpand',
+			'expand',
+			'postExpand'
+		],
+		[
+			'preCollapse',
+			'collapse',
+			'postCollapse'
+		]
+	];
 	
-	objAccordion.$accordion.find('.accordion-btn').each(function () {
-		var $accourdionBtn = $(this);
-		var $accordionTarget = $($accourdionBtn.attr('data-target'));
+	function Event(name, source, accordion) {
+		this.name = name;
+		this.source = source;
+		this.target = $($(source).attr('data-target'))[0];
+		this.accordion = accordion;
+		this.phases = EventPhases[name];
+	}
+	
+	function EventPhaseChain(event) {
+		this.event = event;
+		this.phaseIndex = -1;
+		this.phaseCount = event.phases.length;
+	}
+	
+	EventPhaseChain.prototype.next = function () {
+		if(this.phaseCount < this.phaseIndex) {
+			var phase = this.event.phases[++this.phaseIndex];
+			
+			if(typeof(this.event.accordion[phase]) == 'function') {
+				this.event.accordion[phase](this.event, this);
+			}
+			
+			if(typeof(this.event.accordion.options[phase]) == 'function') {
+				this.event.accordion.options[phase](this.event, this);
+			} else {
+				this.next();
+			}
+		}
+	};
+	
+	function Accordion(container, options) {
+		var accordion = this;
 		
-		$accordionTarget.hide();
+		accordion.container = container;
+		accordion.options = options;
 		
-		$accourdionBtn.css({"cursor":"pointer"}).click(function () {
-			objAccordion.toggle($accourdionBtn, $accordionTarget);
+		var $container = $(accordion.container);
+		
+		$container.find('.accordion-target').hide();
+		
+		$container.find('.accordion-control').css({"cursor":"pointer"}).click(function () {
+			accordion.toggle(this);
 		});
-	});
-}
-
-Accordion.prototype.expand = function ($accourdionBtn, $accordionTarget) {
-	this.$accordion.find('.accordion-target.expanded').slideUp().removeClass('expanded');
-	
-	$accordionTarget.slideDown().addClass('expanded');
-	
-	if(typeof(this.options.onExpand) == 'function') {
-		this.options.onExpand($accourdionBtn, $accordionTarget);
 	}
-};
-
-Accordion.prototype.collapse = function ($accourdionBtn, $accordionTarget) {
-	$accordionTarget.slideUp().removeClass('expanded');
 	
-	if(typeof(this.options.onCollapse) == 'function') {
-		this.options.onCollapse($accourdionBtn, $accordionTarget);
-	}
-};
-
-Accordion.prototype.toggle = function ($accourdionBtn, $accordionTarget) {
-	if(!$accordionTarget.hasClass('expanded')) {
-		this.expand($accourdionBtn, $accordionTarget);
-	} else {
-		this.collapse($accourdionBtn, $accordionTarget);
-	}
-};
+	Accordion.prototype.expand = function (event, chain) {
+		$(event.accordion).find('.accordion-target.expanded').slideUp().removeClass('expanded');
+		
+		$(event.target).slideDown().addClass('expanded');
+	};
+	
+	Accordion.prototype.collapse = function (event, chain) {
+		$(event.target).slideUp().removeClass('expanded');
+	};
+	
+	Accordion.prototype.toggle = function (source) {
+		var $target = $($(source).attr('data-target'));
+		var eventName;
+		
+		if(!$target.hasClass('expanded')) {
+			eventName = EventName.EXPANDED;
+		} else {
+			eventName = EventName.COLLAPSED;
+		}
+		
+		var event = new Event(eventName, source, this);
+		var chain = new EventPhaseChain(event);
+		
+		chain.next();
+	};
+	
+	return {
+		create: function (selector, options) {
+			$(selector).each(function () {
+				new Accordion(this, options);
+			});
+		}
+	};
+})();
