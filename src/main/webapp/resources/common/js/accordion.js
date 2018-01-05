@@ -1,6 +1,5 @@
 var AccordionFactory = (function () {
 	var EventName = {
-	}
 		EXPAND: 0,
 		COLLAPSE: 1
 	};
@@ -29,11 +28,11 @@ var AccordionFactory = (function () {
 	function EventPhaseChain(event) {
 		this.event = event;
 		this.phaseIndex = -1;
-		this.phaseCount = event.phases.length;
+		this.phaseMaxIndex = this.event.phases.length - 1;
 	}
 	
 	EventPhaseChain.prototype.next = function () {
-		if(this.phaseCount < this.phaseIndex) {
+		if(this.phaseIndex < this.phaseMaxIndex) {
 			var phase = this.event.phases[++this.phaseIndex];
 			
 			if(typeof(this.event.accordion[phase]) == 'function') {
@@ -64,7 +63,7 @@ var AccordionFactory = (function () {
 	}
 	
 	Accordion.prototype.expand = function (event, chain) {
-		$(event.accordion).find('.accordion-target.expanded').slideUp().removeClass('expanded');
+		$(event.accordion.container).find('.accordion-target.expanded').slideUp().removeClass('expanded');
 		
 		$(event.target).slideDown().addClass('expanded');
 	};
@@ -78,9 +77,9 @@ var AccordionFactory = (function () {
 		var eventName;
 		
 		if(!$target.hasClass('expanded')) {
-			eventName = EventName.EXPANDED;
+			eventName = EventName.EXPAND;
 		} else {
-			eventName = EventName.COLLAPSED;
+			eventName = EventName.COLLAPSE;
 		}
 		
 		var event = new Event(eventName, source, this);
