@@ -80,13 +80,13 @@
 		<div class="col-sm-12" id="wingForm"></div>
 		<div class="form-group">
 			<label class="control-label col-sm-4" for="secretaryWing">Secretary:</label>
-			<div class="col-sm-2" style="margin-top:5px;">
+			<div class="col-sm-2">
 				<select class="form-control" id="secretaryWing" name="secretaryWing">
 					<option value="">-Wing-</option>
 				</select>
 				<div class="text-danger msg" id="secretaryWingError"></div>
 			</div>
-			<div class="col-sm-2" style="margin-top: 5px;">
+			<div class="col-sm-2">
 				<select class="form-control" id="secretaryRoom" name="secretaryRoom">
 					<option value="">-Room-</option>
 				</select>
@@ -96,27 +96,71 @@
 		<div class="form-group">
 			<label class="control-label col-sm-4" for="secretaryMobile">Secretary
 				Mobile:</label>
-			<div class="col-sm-4" style="margin-top: 5px;">
+			<div class="col-sm-4">
 				<input type="text" class="form-control" id="secretaryMobile"
 					name="secretaryMobile" placeholder="Enter Mobile">
 				<div class="text-danger msg" id="secretaryMobileError"></div>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label col-sm-4 col-xs-12" for="subscriptionPeriodType">Subscription:</label>
+			<label class="control-label col-sm-4 col-xs-12" for="subscriptionType">Subscription:</label>
 			<div class="col-sm-2 col-xs-6">
-				<select class="form-control" id="subscriptionPeriodType" name="subscriptionPeriodType">
+				<select class="form-control" id="subscriptionType" name="subscriptionType">
 					<option value="">-Type-</option>
 					<option value="1">Free</option>
 					<option value="2">Paid</option>
 				</select>
-				<div class="text-danger msg" id="subscriptionPeriodTypeError"></div>
+				<div class="text-danger msg" id="subscriptionTypeError"></div>
 			</div>
 			<div class="col-sm-2 col-xs-6">
-				<select class="form-control" id="subscriptionPeriodDuration" name="subscriptionPeriodDuration" disabled="disabled">
+				<select class="form-control" id="subscriptionDuration" name="subscriptionDuration" disabled="disabled">
 					<option value="">-Duration-</option>
 				</select>
-				<div class="text-danger msg" id="subscriptionPeriodDurationError"></div>
+				<div class="text-danger msg" id="subscriptionDurationError"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-4 col-xs-12" for="roomAmount">Room Amount:</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="roomAmount"
+					name="roomAmount" placeholder="Room Amount"  disabled="disabled" />
+				<div class="text-danger msg" id="roomAmountError"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-4 col-xs-12" for="subscriptionAmount">Subscription Amount:</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="subscriptionAmount"
+					name="subscriptionAmount" placeholder="Subscription Amount" disabled="disabled" />
+				<div class="text-danger msg" id="subscriptionAmountError"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-4 col-xs-12" for="transactionAmount">Paid Amount:</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="transactionAmount"
+					name="transactionAmount" placeholder="Paid Amount" disabled="disabled" />
+				<div class="text-danger msg" id="transactionAmountError"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-4 col-xs-12" for="transactionType">Payment Type:</label>
+			<div class="col-sm-4">
+				<select class="form-control" id="transactionType" name="transactionType" disabled="disabled">
+					<option value="">-Type-</option>
+					<option value="1">Cash</option>
+					<option value="2">Cheque</option>
+					<option value="3">Others</option>
+				</select>
+				<div class="text-danger msg" id="transactionTypeError"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-4 col-xs-12" for="transactionDetail">Payment Details:</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="transactionDetail"
+					name="transactionDetail" placeholder="Bank / Branch / Chq Date / Chq No." disabled="disabled" />
+				<div class="text-danger msg" id="transactionDetailError"></div>
 			</div>
 		</div>
 		<div class="form-group" align="center">

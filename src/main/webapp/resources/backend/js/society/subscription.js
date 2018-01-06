@@ -1,5 +1,5 @@
-var subscriptionPeriodEdit = false;
-var subscriptionPeriodId = 0;
+var subscriptionEdit = false;
+var subscriptionId = 0;
 var sub_table;
 
 function create_sub_list_table(id, content) {
@@ -42,12 +42,12 @@ AccordionFactory.create("#accordionSubscription",{
 
 				for(var key in dataOrError.subscriptionList) {
 					htmlStr += '<tr>' + 
-							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionPeriodStartDate'].split("-").reverse().join("-") + '</td>' +
-							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionPeriodEndDate'].split("-").reverse().join("-") + '</td>' +
-							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionPeriodType'] + '</td>' +
-							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionPeriodStatus'] + '</td>' +
-							  	'<td>' + ((null == dataOrError.subscriptionList[key]['subscriptionPeriodAmount']) 
-										? '0' :dataOrError.subscriptionList[key]['subscriptionPeriodAmount']) + '</td>' +
+							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionStartDate'].split("-").reverse().join("-") + '</td>' +
+							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionEndDate'].split("-").reverse().join("-") + '</td>' +
+							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionType'] + '</td>' +
+							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionStatus'] + '</td>' +
+							  	'<td>' + ((null == dataOrError.subscriptionList[key]['subscriptionAmount']) 
+										? '0' :dataOrError.subscriptionList[key]['subscriptionAmount']) + '</td>' +
 							  	'<td>Edit</td>' +
 							  '</tr>';
 				}
@@ -70,25 +70,25 @@ AccordionFactory.create("#accordionSubscription",{
 
 $(".modal-btn").click( function() {
 	
-	var subscriptionPeriodId = $(this).attr("data-subscriptionPeriodId");
-	$("#subscriptionPeriodStartDate").val("");
-	$("#subscriptionPeriodEndDate").val("");
-	$("#subscriptionPeriodType").val("");
-	$("#subscriptionPeriodStatus").val("");
-	$("#subscriptionPeriodAmount").val("0");
+	var subscriptionId = $(this).attr("data-subscriptionId");
+	$("#subscriptionStartDate").val("");
+	$("#subscriptionEndDate").val("");
+	$("#subscriptionType").val("");
+	$("#subscriptionStatus").val("");
+	$("#subscriptionAmount").val("0");
 
-	ajax("/subscriptionPeriod/getBySubscriptionPeriodId?subscriptionPeriodId=" + subscriptionPeriodId, function(jqXHR, textStatus, dataOrError) {
+	ajax("/subscription/getBySubscriptionId?subscriptionId=" + subscriptionId, function(jqXHR, textStatus, dataOrError) {
 		if(HttpStatus.NO_CONTENT == jqXHR.status) {
 			htmlStr = 'No Subscription Found';
-			$("#subscriptionFormClass_" + subscriptionPeriodId).html(htmlStr);
+			$("#subscriptionFormClass_" + subscriptionId).html(htmlStr);
 		} else if(HttpStatus.OK == jqXHR.status) {
-			$("#subscriptionPeriodStartDate").val(dataOrError.subscriptionPeriodStartDate.split("-").reverse().join("-"));
-			$("#subscriptionPeriodEndDate").val(dataOrError.subscriptionPeriodEndDate.split("-").reverse().join("-"));
-			$("#subscriptionPeriodType").val(dataOrError.subscriptionPeriodType);
-			$("#subscriptionPeriodStatus").val(dataOrError.subscriptionPeriodStatus);
-			((null == dataOrError.subscriptionPeriodAmount) 
-			? $("#subscriptionPeriodAmount").val("0")
-			:$("#subscriptionPeriodAmount").val(dataOrError.subscriptionPeriodAmount));
+			$("#subscriptionStartDate").val(dataOrError.subscriptionStartDate.split("-").reverse().join("-"));
+			$("#subscriptionEndDate").val(dataOrError.subscriptionEndDate.split("-").reverse().join("-"));
+			$("#subscriptionType").val(dataOrError.subscriptionType);
+			$("#subscriptionStatus").val(dataOrError.subscriptionStatus);
+			((null == dataOrError.subscriptionAmount) 
+			? $("#subscriptionAmount").val("0")
+			:$("#subscriptionAmount").val(dataOrError.subscriptionAmount));
 		} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
 			//alert('BAD');
 		}
@@ -99,13 +99,13 @@ $(".modal-btn").click( function() {
 $("#subscriptionSubmit").click(function () {
 	var formData = getFormData($("#subscriptionForm"));
 
-	if(subscriptionPeriodEdit == true) {
-		formData.subscriptionPeriodId = subscriptionPeriodId;
+	if(subscriptionEdit == true) {
+		formData.subscriptionId = subscriptionId;
 	}
 	
 	preValidate();
 
-	ajax("/subscriptionPeriod/save", function(jqXHR, textStatus, dataOrError) {
+	ajax("/subscription/save", function(jqXHR, textStatus, dataOrError) {
 		console.log(dataOrError)
 		if(HttpStatus.NO_CONTENT == jqXHR.status) {
 

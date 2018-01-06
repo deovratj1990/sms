@@ -1,13 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<nav class="navbar navbar-inverse">
+<nav class="navbar" style="background-color: #EFEFEF;">
 	<div class="navbar-header">
 		<c:if test="${'login' != VIEW_NAME}">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#myNavbar">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
+			<span class="glyphicon glyphicon glyphicon-align-justify
+ text-info navbar-toggle" data-toggle="collapse"
+				data-target="#myNavbar"></span>	
 		</c:if>
 		<a class="navbar-brand" href="#">SMS ( Society Mgmt Sys)</a>
 	</div>

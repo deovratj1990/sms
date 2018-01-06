@@ -35,40 +35,40 @@
 							Date:</label>
 						<div class="col-sm-6">
 							<input type="text" class="form-control"
-								id="subscriptionPeriodStartDate"
-								name="subscriptionPeriodStartDate"
+								id="subscriptionStartDate"
+								name="subscriptionStartDate"
 								placeholder="Enter Subscription Date">
 							<div class="text-danger msg" id="societyNameError"></div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4"
-							for="subscriptionPeriodEndDate">Valid Till:</label>
+							for="subscriptionEndDate">Valid Till:</label>
 						<div class="col-sm-6">
 							<input type="text" class="form-control"
-								id="subscriptionPeriodEndDate" name="subscriptionPeriodEndDate"
+								id="subscriptionEndDate" name="subscriptionEndDate"
 								placeholder="Enter Valid Till">
-							<div class="text-danger msg" id="subscriptionPeriodEndDateError"></div>
+							<div class="text-danger msg" id="subscriptionEndDateError"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-4" for="subscriptionPeriodType">Type:</label>
+						<label class="control-label col-sm-4" for="subscriptionType">Type:</label>
 						<div class="col-sm-6">
-							<select class="form-control" id="subscriptionPeriodType"
-								name="subscriptionPeriodType">
+							<select class="form-control" id="subscriptionType"
+								name="subscriptionType">
 								<option value="">-Select-</option>
 								<option value="1">FREE</option>
 								<option value="2">PAID</option>
 							</select>
-							<div class="text-danger msg" id="subscriptionPeriodTypeError"></div>
+							<div class="text-danger msg" id="subscriptionTypeError"></div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4"
-							for="subscriptionPeriodStatus">Status:</label>
+							for="subscriptionStatus">Status:</label>
 						<div class="col-sm-6">
-							<select class="form-control" id="subscriptionPeriodStatus"
-								name="subscriptionPeriodStatus">
+							<select class="form-control" id="subscriptionStatus"
+								name="subscriptionStatus">
 								<option value="">-Select-</option>
 								<option value="1">PENDING</option>
 								<option value="2">PAYMENT PENDING</option>
@@ -77,17 +77,17 @@
 								<option value="5">EXPIRED</option>
 								<option value="6">ACTIVE</option>
 							</select>
-							<div class="text-danger msg" id="subscriptionPeriodStatusError"></div>
+							<div class="text-danger msg" id="subscriptionStatusError"></div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-4"
-							for="subscriptionPeriodAmount">Amount:</label>
+							for="subscriptionAmount">Amount:</label>
 						<div class="col-sm-6">
 							<input type="text" class="form-control"
-								id="subscriptionPeriodAmount" name="subscriptionPeriodAmount"
+								id="subscriptionAmount" name="subscriptionAmount"
 								placeholder="Enter Amount">
-							<div class="text-danger msg" id="subscriptionPeriodAmountError"></div>
+							<div class="text-danger msg" id="subscriptionAmountError"></div>
 						</div>
 					</div>
 					<div class="form-group" align="center">
@@ -126,35 +126,35 @@
 							<td>${societyList.get(index).get("localityName").asText()}-
 								${societyList.get(index).get("pincodeName").asText()}</td>
 							<td><fmt:parseDate
-									value="${societyList.get(index).get('subscriptionPeriodStartDate').asText()}"
-									var="subscriptionPeriodStartDate" pattern="yyyy-MM-dd" /> <fmt:formatDate
-									pattern="dd-MM-yyyy" value="${subscriptionPeriodStartDate}" />
+									value="${societyList.get(index).get('subscriptionStartDate').asText()}"
+									var="subscriptionStartDate" pattern="yyyy-MM-dd" /> <fmt:formatDate
+									pattern="dd-MM-yyyy" value="${subscriptionStartDate}" />
 							</td>
 							<td><fmt:parseDate
-									value="${societyList.get(index).get('subscriptionPeriodEndDate').asText()}"
-									var="subscriptionPeriodEndDate" pattern="yyyy-MM-dd" /> <fmt:formatDate
-									pattern="dd-MM-yyyy" value="${subscriptionPeriodEndDate}" /></td>
+									value="${societyList.get(index).get('subscriptionEndDate').asText()}"
+									var="subscriptionEndDate" pattern="yyyy-MM-dd" /> <fmt:formatDate
+									pattern="dd-MM-yyyy" value="${subscriptionEndDate}" /></td>
 							<td><c:choose>
 									<c:when
-										test="${societyList.get(index).get('subscriptionPeriodType').asInt() == 1}">Free</c:when>
+										test="${societyList.get(index).get('subscriptionType').asInt() == 1}">Free</c:when>
 									<c:otherwise>Paid</c:otherwise>
 								</c:choose></td>
 							<td><c:choose>
 									<c:when
-										test="${societyList.get(index).get('subscriptionPeriodStatus').asInt() == 1}">Pending</c:when>
+										test="${societyList.get(index).get('subscriptionStatus').asInt() == 1}">Pending</c:when>
 									<c:when
-										test="${societyList.get(index).get('subscriptionPeriodStatus').asInt() == 2}">Payment Pending</c:when>
+										test="${societyList.get(index).get('subscriptionStatus').asInt() == 2}">Payment Pending</c:when>
 									<c:when
-										test="${societyList.get(index).get('subscriptionPeriodStatus').asInt() == 3}">Partial Payment</c:when>
+										test="${societyList.get(index).get('subscriptionStatus').asInt() == 3}">Partial Payment</c:when>
 									<c:when
-										test="${societyList.get(index).get('subscriptionPeriodStatus').asInt() == 4}">Inactice</c:when>
+										test="${societyList.get(index).get('subscriptionStatus').asInt() == 4}">Inactice</c:when>
 									<c:when
-										test="${societyList.get(index).get('subscriptionPeriodStatus').asInt() == 5}">Expired</c:when>
+										test="${societyList.get(index).get('subscriptionStatus').asInt() == 5}">Expired</c:when>
 									<c:otherwise>Active</c:otherwise>
 								</c:choose></td>
 							<td><span class="modal-btn glyphicon glyphicon-pencil"
 								title="Edit Subscription"
-								data-subscriptionPeriodId="${societyList.get(index).get('subscriptionPeriodId').asInt()}"
+								data-subscriptionId="${societyList.get(index).get('subscriptionId').asInt()}"
 								data-toggle="modal" data-target="#myModal"></span> <span
 								class="accordion-control glyphicon glyphicon-list"
 								title="View Subscription" data-accordionType="subscriptionList"
