@@ -21,7 +21,7 @@ public class AddressController extends AbstractController {
 	@Autowired
 	Client client;
 	
-	@RequestMapping(value="/country")
+	@RequestMapping(value="/address")
 	public ModelAndView country(HttpServletRequest request) throws ClientProtocolException, IOException {
 		client.setAuthHeader(request.getAttribute(config.getAdminAuthCookieName()).toString());
 		
@@ -31,7 +31,7 @@ public class AddressController extends AbstractController {
 		
 		data.put("countryList", countries);
 		
-		return render("country", data);
+		return render("address", data);
 	}
 	
 	@RequestMapping(path="/state")

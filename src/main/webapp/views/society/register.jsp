@@ -1,15 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="col-sm-12" align="center">
+<div align="center">
 	<form class="form-horizontal" id="registrationForm">
-		<div class="text-center msg hidden" id="formError"></div>
-		<div class="form-group">
+		<div class="text-center msg hidden mt-2" id="formError"></div>
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="societyName">Name:</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="societyName" name="societyName" placeholder="Enter Society Name">
 				<div class="text-danger msg" id="societyNameError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="countryId">Country:</label>
 			<div class="col-sm-4">
 				<select class="form-control" id="countryId" name="countryId">
@@ -23,7 +23,7 @@
 				<div class="text-danger msg" id="countryIdError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="stateId">State:</label>
 			<div class="col-sm-4">
 				<select class="form-control" id="stateId" name="stateId">
@@ -32,7 +32,7 @@
 				<div class="text-danger msg" id="stateIdError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="cityId">City:</label>
 			<div class="col-sm-4">
 				<select class="form-control" id="cityId" name="cityId">
@@ -41,7 +41,7 @@
 				<div class="text-danger msg" id="cityIdError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="areaId">Area:</label>
 			<div class="col-sm-4">
 				<select class="form-control" id="areaId" name="areaId">
@@ -50,7 +50,7 @@
 				<div class="text-danger msg" id="areaIdError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="pincodeId">Pincode:</label>
 			<div class="col-sm-4">
 				<select class="form-control" id="pincodeId" name="pincodeId">
@@ -59,7 +59,7 @@
 				<div class="text-danger msg" id="pincodeIdError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="localityId">Locality:</label>
 			<div class="col-sm-4">
 				<select class="form-control" id="localityId"
@@ -69,7 +69,7 @@
 				<div class="text-danger msg" id="localityIdError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="societyWingCount">Wings:</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="societyWingCount"
@@ -77,8 +77,8 @@
 				<div class="text-danger msg" id="societyWingCountError"></div>
 			</div>
 		</div>
-		<div class="col-sm-12" id="wingForm"></div>
-		<div class="form-group">
+		<div id="wingForm"></div>
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="secretaryWing">Secretary:</label>
 			<div class="col-sm-2">
 				<select class="form-control" id="secretaryWing" name="secretaryWing">
@@ -93,7 +93,7 @@
 				<div class="text-danger msg" id="secretaryRoomError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4" for="secretaryMobile">Secretary
 				Mobile:</label>
 			<div class="col-sm-4">
@@ -102,7 +102,7 @@
 				<div class="text-danger msg" id="secretaryMobileError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4 col-xs-12" for="subscriptionType">Subscription:</label>
 			<div class="col-sm-2 col-xs-6">
 				<select class="form-control" id="subscriptionType" name="subscriptionType">
@@ -119,7 +119,7 @@
 				<div class="text-danger msg" id="subscriptionDurationError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4 col-xs-12" for="roomAmount">Room Amount:</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="roomAmount"
@@ -127,7 +127,7 @@
 				<div class="text-danger msg" id="roomAmountError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4 col-xs-12" for="subscriptionAmount">Subscription Amount:</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="subscriptionAmount"
@@ -135,15 +135,15 @@
 				<div class="text-danger msg" id="subscriptionAmountError"></div>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="control-label col-sm-4 col-xs-12" for="transactionAmount">Paid Amount:</label>
+		<div class="form-group row">
+			<label class="control-label col-sm-4 col-xs-12" for="transactionAmount">Paying Amount:</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="transactionAmount"
-					name="transactionAmount" placeholder="Paid Amount" disabled="disabled" />
+					name="transactionAmount" placeholder="Paying Amount" disabled="disabled" />
 				<div class="text-danger msg" id="transactionAmountError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4 col-xs-12" for="transactionType">Payment Type:</label>
 			<div class="col-sm-4">
 				<select class="form-control" id="transactionType" name="transactionType" disabled="disabled">
@@ -155,7 +155,7 @@
 				<div class="text-danger msg" id="transactionTypeError"></div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<label class="control-label col-sm-4 col-xs-12" for="transactionDetail">Payment Details:</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="transactionDetail"
@@ -163,7 +163,7 @@
 				<div class="text-danger msg" id="transactionDetailError"></div>
 			</div>
 		</div>
-		<div class="form-group" align="center">
+		<div class="form-group row" align="center">
 			<div class="col-sm-offset-2 col-sm-8">
 				<input type="submit" class="btn btn-default" id="registrationSubmit" value="Register" />
 			</div>

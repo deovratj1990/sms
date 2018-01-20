@@ -15,8 +15,14 @@ $("#country_submit").click(function () {
 			$('#countryListBody tr').removeClass('warning success');
 			var trHeader = '<tr id="country_' + dataOrError.data.countryId + '" class="success">';
 			var trBody = 		'<td>' + formData.countryName + '</td>' + 
-								'<td><a href="javascript:void(0);" onClick="getCountryEdit(' + dataOrError.data.countryId + ')">Modify</a>' +
-								' | <a href="/admin/address/state?countryId=' + dataOrError.data.countryId + '">View State</a></td>';
+								'<td><span class="btn-country-edit glyphicon glyphicon glyphicon-pencil" ' +
+									 'title="Edit Country" ' +
+									 'onclick="getCountryEdit(\'' + dataOrError.data.countryId + '\')">' +
+									 '</span> ' +
+									 '<span class="glyphicon glyphicon glyphicon-list" '+
+									 'title="View States" ' +
+									 'onclick="location.assign(\'/admin/address/state?countryId=' + dataOrError.data.countryId + '\')"></span>';
+			
 			var trFooter = '</tr>';
 			if(true == countryEdit) {
 				$("#country_" + countryEditId).html(trBody);

@@ -1,4 +1,3 @@
-var subscriptionEdit = false;
 var subscriptionId = 0;
 var sub_table;
 
@@ -70,36 +69,63 @@ AccordionFactory.create("#accordionSubscription",{
 
 $(".modal-btn").click( function() {
 	
-	var subscriptionId = $(this).attr("data-subscriptionId");
+	subscriptionId = $(this).attr("data-subscriptionId");
+	
 	$("#subscriptionStartDate").val("");
 	$("#subscriptionEndDate").val("");
-	$("#subscriptionType").val("");
 	$("#subscriptionStatus").val("");
-	$("#subscriptionAmount").val("0");
-
-	ajax("/subscription/getBySubscriptionId?subscriptionId=" + subscriptionId, function(jqXHR, textStatus, dataOrError) {
-		if(HttpStatus.NO_CONTENT == jqXHR.status) {
-			htmlStr = 'No Subscription Found';
-			$("#subscriptionFormClass_" + subscriptionId).html(htmlStr);
-		} else if(HttpStatus.OK == jqXHR.status) {
-			$("#subscriptionStartDate").val(dataOrError.subscriptionStartDate.split("-").reverse().join("-"));
-			$("#subscriptionEndDate").val(dataOrError.subscriptionEndDate.split("-").reverse().join("-"));
-			$("#subscriptionType").val(dataOrError.subscriptionType);
-			$("#subscriptionStatus").val(dataOrError.subscriptionStatus);
-			((null == dataOrError.subscriptionAmount) 
-			? $("#subscriptionAmount").val("0")
-			:$("#subscriptionAmount").val(dataOrError.subscriptionAmount));
-		} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
-			//alert('BAD');
-		}
-	}, 'GET');		
+	$("#subscriptionType").val("");
+	$("#subscriptionDuration").val("");
+	$("#subscriptionAmount").val("");
+	$("#paidAmount").val("");
+	$("#balanceAmount").val("");
+	$("#transactionAmount").val("");
+	$("#transactionType").val("");
+	$("#transactionDetail").val("");
 	
-});
+	$(':input').attr("disabled", false);
+	
+	if("transaction" == $(this).attr("data-btnType")) {
+		$("#subscriptionTitle").html("Subscription Payment");
+		$("#subscriptionEndDateContainer").removeClass("d-none");
+		$("#subscriptionStatusContainer").removeClass("d-none");
+		
+		$("#subscriptionStartDate").attr("disabled", true);
+		$("#subscriptionEndDate").attr("disabled", true);
+		$("#subscriptionStatus").attr("disabled", true);
+		$("#subscriptionType").attr("disabled", true);
+		$("#subscriptionDuration").attr("disabled", true);
+		$("#subscriptionAmount").attr("disabled", true);
+		$("#paidAmount").attr("disabled", true);
+		$("#balanceAmount").attr("disabled", true);
+	
+		ajax("/society/getSubscriptionTransaction?subscriptionId="+subscriptionId, function(jqXHR, textStatus, dataOrError) {
+			if(HttpStatus.NO_CONTENT == jqXHR.status) {
+				$("#formError").html("No Transaction Found!");
+				$('#modal').modal('hide');
+			} else if(HttpStatus.OK == jqXHR.status) {
+				$("#subscriptionStartDate").val(dataOrError["subscriptionTransaction"].subscriptionStartDateText);
+				$("#subscriptionEndDate").val(dataOrError["subscriptionTransaction"].subscriptionEndDateText);
+				$("#subscriptionType").val(dataOrError["subscriptionTransaction"].subscriptionType);
+				$("#subscriptionStatus").val(dataOrError["subscriptionTransaction"].subscriptionStatus);
+				$("#subscriptionDuration").val(dataOrError["subscriptionTransaction"].subscriptionDuration);
+				$("#subscriptionAmount").val(dataOrError["subscriptionTransaction"].subscriptionAmount);
+				$("#paidAmount").val(dataOrError["subscriptionTransaction"].paidAmount);
+				$("#balanceAmount,#transactionAmount").val(dataOrError["subscriptionTransaction"].balanceAmount);
+			} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
+				//alert('BAD');
+			}
+		}, 'GET');	
+	} else {
+		$("#subscriptionTitle").html("Add Subscription");
+		$("#subscriptionEndDateContainer").addClass("d-none");
+		$("#subscriptionStatusContainer").addClass("d-none");
+	}});
 
 $("#subscriptionSubmit").click(function () {
 	var formData = getFormData($("#subscriptionForm"));
 
-	if(subscriptionEdit == true) {
+	if(subscriptionId != 0) {
 		formData.subscriptionId = subscriptionId;
 	}
 	
@@ -117,4 +143,12 @@ $("#subscriptionSubmit").click(function () {
 	}, 'PUT', formData);		
 
 	return false;
+});
+
+$("#transactionType").change(function(){
+	$("#transactionDetail").attr("disabled", true);
+	$("#transactionDetail").val("");
+	if(2 == $(this).val() || 3 == $(this).val()){
+		$("#transactionDetail").attr("disabled", false);
+	}
 });

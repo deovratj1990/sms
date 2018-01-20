@@ -8,7 +8,7 @@ $("#societyWingCount").keyup(function (event) {
 	    var count = 0;
 	
 	    for(var i = 1 ; i <= Math.ceil(wingCount/3) ; i++){
-	    	string += '<div class="form-group">';	
+	    	string += '<div class="form-group row">';	
 	    	
 	    	if(i > (wingCount / 3)) {
 	    		if(1 == (wingCount % 3)) {

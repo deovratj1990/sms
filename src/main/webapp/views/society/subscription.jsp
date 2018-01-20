@@ -1,107 +1,152 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<div class="col-sm-12" align="center">
-	<form class="form-horizontal" id="registrationForm">
-		<div class="text-center msg hidden" id="formError"></div>
-		<div class="form-group">
-			<label class="control-label col-sm-4" for="subscriptionType">Subscription
-				Type:</label>
-			<div class="col-sm-4">
-				<select class="form-control" id="subscriptionType"
-					name="subscriptionType">
-					<option value="">-Select-</option>
-					<option value="1">Free</option>
-					<option value="2">Paid</option>
-				</select>
-				<div class="text-danger msg" id="subscriptionTypeError"></div>
-			</div>
-		</div>
-	</form>
-</div>
-
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">
-			<div class="modal-header bg-info">
+			<div class="modal-header">
+				<h4 class="modal-title" id="subscriptionTitle"></h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Subscription Form</h4>
 			</div>
-			<div class="modal-body">
-				<form class="form-horizontal" id="subscriptionForm">
-					<div class="form-group">
-						<label class="control-label col-sm-4" for="societyName">Subscription
+			<form class="form-horizontal" id="subscriptionForm">
+				<div class="modal-body">
+					<div class="text-center msg hidden mt-2" id="formError"></div>
+					<div class="form-group row">
+						<label class="control-label col-sm-5" for="subscriptionStartDate">Subscription
 							Date:</label>
-						<div class="col-sm-6">
+						<div class="col-sm-7">
 							<input type="text" class="form-control"
-								id="subscriptionStartDate"
-								name="subscriptionStartDate"
-								placeholder="Enter Subscription Date">
-							<div class="text-danger msg" id="societyNameError"></div>
+								id="subscriptionStartDate" name="subscriptionStartDate"
+								placeholder="Enter Subscription Date" />
+							<div class="text-danger msg" id="subscriptionStartDateError"></div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-4"
-							for="subscriptionEndDate">Valid Till:</label>
-						<div class="col-sm-6">
+					<div class="form-group row" id="subscriptionEndDateContainer">
+						<label class="control-label col-sm-5" for="subscriptionEndDate">Valid Till
+							Date:</label>
+						<div class="col-sm-7">
 							<input type="text" class="form-control"
 								id="subscriptionEndDate" name="subscriptionEndDate"
-								placeholder="Enter Valid Till">
+								placeholder="Enter End Date" />
 							<div class="text-danger msg" id="subscriptionEndDateError"></div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-4" for="subscriptionType">Type:</label>
-						<div class="col-sm-6">
-							<select class="form-control" id="subscriptionType"
-								name="subscriptionType">
-								<option value="">-Select-</option>
-								<option value="1">FREE</option>
-								<option value="2">PAID</option>
-							</select>
-							<div class="text-danger msg" id="subscriptionTypeError"></div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-4"
-							for="subscriptionStatus">Status:</label>
-						<div class="col-sm-6">
+					<div class="form-group row" id="subscriptionStatusContainer">
+						<label class="control-label col-sm-5" for="subscriptionStatus">Subscription Status:</label>
+						<div class="col-sm-7">
 							<select class="form-control" id="subscriptionStatus"
 								name="subscriptionStatus">
-								<option value="">-Select-</option>
-								<option value="1">PENDING</option>
-								<option value="2">PAYMENT PENDING</option>
-								<option value="3">PARTIAL PAYMENT</option>
-								<option value="4">INACTIVE</option>
-								<option value="5">EXPIRED</option>
-								<option value="6">ACTIVE</option>
+								<option value="">-Status-</option>
+								<option value="1">PAYMENT PENDING</option>
+								<option value="2">PARTIAL PAYMENT</option>
+								<option value="3">INACTIVE</option>
+								<option value="4">EXPIRED</option>
+								<option value="5">ACTIVE</option>
 							</select>
 							<div class="text-danger msg" id="subscriptionStatusError"></div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-4"
-							for="subscriptionAmount">Amount:</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control"
-								id="subscriptionAmount" name="subscriptionAmount"
-								placeholder="Enter Amount">
+					<div class="form-group row">
+						<label class="control-label col-sm-5 col-xs-12"
+							for="subscriptionType">Subscription:</label>
+						<div class="col-sm-3 col-xs-4">
+							<select class="form-control" id="subscriptionType"
+								name="subscriptionType">
+								<option value="">-Type-</option>
+								<option value="1">Free</option>
+								<option value="2">Paid</option>
+							</select>
+							<div class="text-danger msg" id="subscriptionTypeError"></div>
+						</div>
+						<div class="col-sm-4 col-xs-4">
+							<select class="form-control" id="subscriptionDuration"
+								name="subscriptionDuration">
+								<option value="">-Duration-</option>
+								<option value="12">1 Year</option>
+								<option value="24">2 Year</option>
+								<option value="36">3 Year</option>
+								<option value="48">4 Year</option>
+								<option value="60">5 Year</option>
+							</select>
+							<div class="text-danger msg" id="subscriptionDurationError"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-sm-5 col-xs-12"
+							for="subscriptionAmount">Subscription Amt:</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id="subscriptionAmount"
+								name="subscriptionAmount" placeholder="Subscription Amount"
+								 />
 							<div class="text-danger msg" id="subscriptionAmountError"></div>
 						</div>
 					</div>
-					<div class="form-group" align="center">
-						<input type="submit" class="btn btn-default"
-							id="subscriptionSubmit" name="subscriptionSubmit" value="Save" />
+					<div class="form-group row">
+						<label class="control-label col-sm-5 col-xs-12"
+							for="paidAmount">Paid Amount:</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id="paidAmount"
+								name="paidAmount" placeholder="Paid Amount"
+								 />
+							<div class="text-danger msg" id="paidAmountError"></div>
+						</div>
 					</div>
-				</form>
-			</div>
+					<div class="form-group row">
+						<label class="control-label col-sm-5 col-xs-12"
+							for="balanceAmount">Balance Amount:</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id="balanceAmount"
+								name="balanceAmount" placeholder="Balance Amount"
+								 />
+							<div class="text-danger msg" id="balanceAmountError"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-sm-5 col-xs-12"
+							for="transactionAmount">Paying Amount:</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id="transactionAmount"
+								name="transactionAmount" placeholder="Paying Amount" />
+							<div class="text-danger msg" id="transactionAmountError"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-sm-5 col-xs-12"
+							for="transactionType">Payment Type:</label>
+						<div class="col-sm-7">
+							<select class="form-control" id="transactionType"
+								name="transactionType">
+								<option value="">-Type-</option>
+								<option value="1">Cash</option>
+								<option value="2">Cheque</option>
+								<option value="3">Others</option>
+							</select>
+							<div class="text-danger msg" id="transactionTypeError"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-sm-5 col-xs-12"
+							for="transactionDetail">Payment Details:</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id="transactionDetail"
+								name="transactionDetail"
+								placeholder="Bank / Branch / Chq Date / Chq No." />
+							<div class="text-danger msg" id="transactionDetailError"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-primary"
+						id="subscriptionSubmit" name="subscriptionSubmit" value="Save" />
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
 
 <div class="row">
-	<div class="col-sm-12" align="center">
+	<div class="col-sm-12 table-responsive" align="center">
 		<p>Society List</p>
 		<table class="table table-striped table-hover">
 			<thead>
@@ -125,38 +170,27 @@
 							</td>
 							<td>${societyList.get(index).get("localityName").asText()}-
 								${societyList.get(index).get("pincodeName").asText()}</td>
-							<td><fmt:parseDate
-									value="${societyList.get(index).get('subscriptionStartDate').asText()}"
-									var="subscriptionStartDate" pattern="yyyy-MM-dd" /> <fmt:formatDate
-									pattern="dd-MM-yyyy" value="${subscriptionStartDate}" />
-							</td>
-							<td><fmt:parseDate
-									value="${societyList.get(index).get('subscriptionEndDate').asText()}"
-									var="subscriptionEndDate" pattern="yyyy-MM-dd" /> <fmt:formatDate
-									pattern="dd-MM-yyyy" value="${subscriptionEndDate}" /></td>
-							<td><c:choose>
-									<c:when
-										test="${societyList.get(index).get('subscriptionType').asInt() == 1}">Free</c:when>
-									<c:otherwise>Paid</c:otherwise>
-								</c:choose></td>
-							<td><c:choose>
-									<c:when
-										test="${societyList.get(index).get('subscriptionStatus').asInt() == 1}">Pending</c:when>
-									<c:when
-										test="${societyList.get(index).get('subscriptionStatus').asInt() == 2}">Payment Pending</c:when>
-									<c:when
-										test="${societyList.get(index).get('subscriptionStatus').asInt() == 3}">Partial Payment</c:when>
-									<c:when
-										test="${societyList.get(index).get('subscriptionStatus').asInt() == 4}">Inactice</c:when>
-									<c:when
-										test="${societyList.get(index).get('subscriptionStatus').asInt() == 5}">Expired</c:when>
-									<c:otherwise>Active</c:otherwise>
-								</c:choose></td>
-							<td><span class="modal-btn glyphicon glyphicon-pencil"
-								title="Edit Subscription"
-								data-subscriptionId="${societyList.get(index).get('subscriptionId').asInt()}"
-								data-toggle="modal" data-target="#myModal"></span> <span
-								class="accordion-control glyphicon glyphicon-list"
+							<td>${societyList.get(index).get('subscriptionStartDateText').asText()}</td>
+							<td>${societyList.get(index).get('subscriptionEndDateText').asText()}</td>
+							<td>${societyList.get(index).get('subscriptionTypeText').asText()}</td>
+							<td>${societyList.get(index).get('subscriptionStatusText').asText()}</td>
+							<td>
+								<c:choose>
+									<c:when test="${societyList.get(index).get('subscriptionStatus').asInt() == 1 
+										|| societyList.get(index).get('subscriptionStatus').asInt() == 2}">
+										<span class="modal-btn glyphicon glyphicon-piggy-bank"
+										title="Make Payment" data-btnType="transaction"
+										data-subscriptionId="${societyList.get(index).get('subscriptionId').asInt()}"
+										data-toggle="modal" data-target="#myModal"></span>
+									</c:when>
+									<c:otherwise>
+										<span class="modal-btn glyphicon glyphicon glyphicon-plus"
+										title="Add Subscription" data-btnType="subscription"
+										data-societyId="${societyList.get(index).get('societyId').asInt()}"
+										data-toggle="modal" data-target="#myModal"></span>
+									</c:otherwise>
+								</c:choose>
+								<span class="accordion-control glyphicon glyphicon-list"
 								title="View Subscription" data-accordionType="subscriptionList"
 								data-societyId="${societyList.get(index).get('societyId').asInt()}"
 								data-target="#subscriptionListClass_${societyList.get(index).get('societyId').asInt()}"></span>

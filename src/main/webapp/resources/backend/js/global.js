@@ -1,3 +1,32 @@
+var HttpStatus = {
+	OK: 200,
+	NO_CONTENT: 204,
+	BAD_REQUEST:400,
+	CONFLICT: 409,
+	INTERNAL_SERVER_ERROR: 500
+};
+
+var SubscriptionType = {
+	FREE: 1,
+	PAID: 2
+};
+
+var SubscriptionStatus = {
+		PAYMENT_PENDING: 1,
+		PARTIAL_PAYMENT: 2,
+		INACTIVE: 3,
+		EXPIRED: 4,
+		ACTIVE: 5
+	};
+
+var TransactionStatus = {
+		PAYMENT_PENDING: 1,
+		PARTIAL_PAYMENT: 2,
+		INACTIVE: 3,
+		EXPIRED: 4,
+		ACTIVE: 5
+	};
+
 function preValidate() {
 	$('.msg').text('');
 	$(':input').css('border-color', "");
@@ -76,14 +105,6 @@ function resetSelect(selector, optionText){
 	}
 }
 
-var HttpStatus = {
-	OK: 200,
-	NO_CONTENT: 204,
-	BAD_REQUEST:400,
-	CONFLICT: 409,
-	INTERNAL_SERVER_ERROR: 500
-};
-
 var cookie = {
 		set: function (cname, cvalue, exdays) {
 		    var d = new Date();
@@ -120,4 +141,14 @@ $(function(){
 		
 		location.assign(config.ADMIN_LOGIN_URL);
 	});
+});
+
+$(document).ajaxStart(function() {
+	$(".container-fluid").fadeTo( "fast", 0.1 );
+	$("#loader").css("display", "block");
+});
+
+$(document).ajaxComplete(function() {
+	$(".container-fluid").fadeTo( "fast", 1 );
+	$("#loader").css("display", "none");
 });
