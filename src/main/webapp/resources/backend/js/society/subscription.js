@@ -1,71 +1,89 @@
 var subscriptionId = 0;
-var sub_table;
 
-function create_sub_list_table(id, content) {
-	sub_table = '<table class="table table-striped table-bordered table-hover" >' +
-					'<thead>' +
-						'<tr class="text-success">' +
-							'<th colspan="6" class="text-centered">Subcription List</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<thead>' +
-						'<tr class="text-success">' +
-							'<th>ValidFrom</th>' +
-							'<th>ValidTill</th>' +
-							'<th>Type</th>' +
-							'<th>Status</th>' +
-							'<th>Amount</th>' +
-							'<th>Action</th>' +
-							'</tr>' +
-					'</thead>' +
-						'<tbody id="subscriptionList_' + id + '">' + content + '</tbody>' +
-					'</table>';
-	return sub_table;
-}
+//CAROUSEL FORM DATA CODE//----------------------------------------------------------------------
+$("body").on("click", "span.carousel-next", function (){
+	console.log($(this));
 
-AccordionFactory.create("#accordionSubscription",{
-	expand: function (event, chain) {
-		console.log("expanded");
-		
-		var htmlStr = "";
+	var getCarouselContainer = $(this).attr("data-callCarousel");
+	var callerId = $(this).attr("data-callerId");
+	var callerName = $(this).attr("data-callerName");
+	
+	if("subscription" == getCarouselContainer) {
+		$('#carouselContainer').carousel('next');
 
-		var societyId = $(event.source).attr("data-societyId");
-		
-		ajax("/society/getSubscriptionBySocietyId?societyId=" + societyId, function(jqXHR, textStatus, dataOrError) {
-			if(HttpStatus.NO_CONTENT == jqXHR.status) {
-				htmlStr = '<tr>' + 
-						  	'<td colspan="6" align="center" class="text-danger">No Subscription Found!</td>' +
-						  '</tr>';
-				$("#subscriptionListClass_" + societyId).html(create_sub_list_table(societyId, htmlStr));
-			} else if(HttpStatus.OK == jqXHR.status) {
-
+		societyId = callerId;
+		$("#subscriptionListHeader").html(callerName);
+		ajax('/society/getSubscriptionBySocietyId?societyId='+societyId, function(jqXHR, textStatus, dataOrError) {
+			if(HttpStatus.OK == jqXHR.status) {
+				var tableContent="";		
 				for(var key in dataOrError.subscriptionList) {
-					htmlStr += '<tr>' + 
-							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionStartDate'].split("-").reverse().join("-") + '</td>' +
-							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionEndDate'].split("-").reverse().join("-") + '</td>' +
-							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionType'] + '</td>' +
-							  	'<td>' + dataOrError.subscriptionList[key]['subscriptionStatus'] + '</td>' +
-							  	'<td>' + ((null == dataOrError.subscriptionList[key]['subscriptionAmount']) 
-										? '0' :dataOrError.subscriptionList[key]['subscriptionAmount']) + '</td>' +
-							  	'<td>Edit</td>' +
-							  '</tr>';
+					console.log(dataOrError.subscriptionList[key]);
+					tableContent += '<tr>' + 
+									  	'<td>' + dataOrError.subscriptionList[key]['subscriptionStartDateText'] + '</td>' +
+									  	'<td>' + dataOrError.subscriptionList[key]['subscriptionEndDateText'] + '</td>' +
+									  	'<td>' + dataOrError.subscriptionList[key]['subscriptionTypeText'] + '</td>' +
+									  	'<td>' + dataOrError.subscriptionList[key]['subscriptionStatusText'] + '</td>' +
+									  	'<td>' + ((null == dataOrError.subscriptionList[key]['subscriptionAmount']) 
+												? '0' :dataOrError.subscriptionList[key]['subscriptionAmount']) + '</td>' +
+									  	'<td>' +
+										  	'<span class="carousel-next glyphicon glyphicon-list" ' +
+											'data-callCarousel="transaction" ' +
+											'data-callerId="' + dataOrError.subscriptionList[key]['subscriptionId'] + '"  ' +
+											'data-callerName="' + dataOrError.subscriptionList[key]['subscriptionStartDateText'] + 
+											dataOrError.subscriptionList[key]['subscriptionEndDateText'] +
+											'" title="View Transactions"></span> ' +
+										'</td>' +
+									 '</tr>';
 				}
-				$("#subscriptionListClass_" + societyId).html(create_sub_list_table(societyId, htmlStr));
-			} else if(HttpStatus.BAD_REQUEST == jqXHR.status) {
-				//alert('BAD');
+				$("#subscriptionListBody").html(tableContent);
+			} else if(HttpStatus.NO_CONTENT == jqXHR.status) {
+				tableContent = '<tr>' + 
+								  	'<td colspan="6" align="center" class="text-danger">No Subscription Found!</td>' +
+								  '</tr>';
+				$("#subscriptionListBody").html(tableContent);
+			} else {
+				alert("Something went wrong. Please try again later!");
+				return false;
 			}
 		}, 'GET');	
+	} else if("transaction" == getCarouselContainer) {
+		$('#carouselContainer').carousel('next');
+
+		subscriptionId = callerId;
+		$("#transactionListHeader").html(callerName);
 		
-		chain.next();
-		
-		return false;
-	},
-	collapse: function (event, chain) {
-		console.log("collapsed");
-		
-		chain.next();
+		ajax('/society/getSubscriptionTransaction?subscriptionId='+subscriptionId, function(jqXHR, textStatus, dataOrError) {
+			if(HttpStatus.OK == jqXHR.status) {
+				var tableContent="";		
+				for(var key in dataOrError) {
+					tableContent += '<tr>' + 
+				  	'<td>' + dataOrError.subscriptionList[key]['transactionDateText'] + '</td>' +
+				  	'<td>' + ((null == dataOrError.subscriptionList[key]['transactionAmount']) 
+							? '0' :dataOrError.subscriptionList[key]['transactionAmount']) + '</td>' +
+				  	'<td>' + dataOrError.subscriptionList[key]['transactionTypeText'] + '</td>' +
+				  	'<td>' + dataOrError.subscriptionList[key]['transactionStatusText'] + '</td>' +
+				  	'<td>' + dataOrError.subscriptionList[key]['transactionDetail'] + '</td>' +
+				  	'<td>' +
+					  	'<span class="delete-transaction glyphicon glyphicon-delete" ' +
+						'data-transactionId="'+dataOrError.subscriptionList[key]['transactionId']+'" ' +
+						'title="Delete Transactions"></span> ' +
+					'</td>' +
+				 '</tr>';
+				}
+				$("#transactionListBody").html(tableContent);
+			} else if(HttpStatus.NO_CONTENT == jqXHR.status) {
+				tableContent = '<tr>' + 
+								  	'<td colspan="6" align="center" class="text-danger">No Subscription Found!</td>' +
+								  '</tr>';
+				$("#transactionListBody").html(tableContent);
+			} else {
+				alert("Something went wrong. Please try again later!");
+				return false;
+			}
+		}, 'GET');	
 	}
 });
+
 
 $(".modal-btn").click( function() {
 	

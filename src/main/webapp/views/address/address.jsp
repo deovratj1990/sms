@@ -1,9 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="container-fluid slider-container" align="center">
-	<div id="sliderContainer" class="carousel slide pl-3 pr-3" data-ride="carousel" data-interval="false">
+<div class="container-fluid slider-container pl-3 pr-3 mt-3 mb-3" align="center">
+	<div id="carouselContainer" class="carousel slide" data-ride="carousel" data-interval="false">
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<div class="col-lg-6 mt-3 p-0 m-0">
+				<div class="col-lg-6 p-0 m-0">
 					<form class="form-horizontal" id="countryForm"
 						onsubmit="return false;">
 						<div class="card">
@@ -12,18 +12,18 @@
 								<div class="text-center msg" id="countryFormError"></div>
 								<div class="form-group row">
 									<div class="col-sm-3 col-lg-3"></div>
-									<div class="col-sm-2 col-lg-2 text-left p-0">
+									<div class="col-sm-2 col-lg-3 text-left">
 										<label class="col-form-label text-right" for="countryName">Country
-											Name :</label>
+											 :</label>
 									</div>
-									<div class="col-sm-4 col-lg-4 text-left p-0">
+									<div class="col-sm-4 col-lg-4 text-left">
 										<input type="text" class="form-control" id="countryName"
 											name="countryName" autofocus>
 										<div class="msg text-danger" id="countryNameError"></div>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
+							<div class="card-footer" align="right">
 								<input type="Submit" class="btn btn-primary" id="countrySubmit"
 									value="Save" />
 							</div>
@@ -73,7 +73,7 @@
 
 			<div class="carousel-item">
 				<!-- STATE COMPONENT  -->
-				<div class="col-lg-6 mt-3 p-0 m-0">
+				<div class="col-lg-6 p-0 m-0">
 					<form class="form-horizontal" id="stateForm"
 						onsubmit="return false;">
 						<div class="card">
@@ -82,11 +82,11 @@
 								<div class="text-center msg" id="stateFormError"></div>
 								<div class="form-group row">
 									<div class="col-sm-3 col-lg-3"></div>
-									<div class="col-sm-2 col-lg-2 text-left p-0">
+									<div class="col-sm-2 col-lg-2 text-left">
 										<label class="col-form-label text-right" for="stateName">State
-											Name :</label>
+											 :</label>
 									</div>
-									<div class="col-sm-4 col-lg-4 text-left p-0">
+									<div class="col-sm-4 col-lg-4 text-left">
 										<input type="text" class="form-control d-none" id="countryId"
 											name="countryId"> <input type="text"
 											class="form-control" id="stateName" name="stateName"
@@ -95,11 +95,11 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
+							<div class="card-footer" align="right">
 								<input type="Submit" class="btn btn-primary" id="stateSubmit"
 									value="Save" /> 
 								<input type="button" class="btn btn-primary"
-									onclick="$('#sliderContainer').carousel('prev')" role="button" data-slide="prev"
+									onclick="$('#carouselContainer').carousel('prev')" role="button" data-slide="prev"
 									value="Back" />
 							</div>
 						</div>
@@ -131,7 +131,7 @@
 
 			<div class="carousel-item">
 				<!-- CITY COMPONENT  -->
-				<div class="col-lg-6 mt-3 p-0 m-0">
+				<div class="col-lg-6 p-0 m-0">
 					<form class="form-horizontal" id="cityForm"
 						onsubmit="return false;">
 						<div class="card">
@@ -140,11 +140,11 @@
 								<div class="text-center msg" id="cityFormError"></div>
 								<div class="form-group row">
 									<div class="col-sm-3 col-lg-3"></div>
-									<div class="col-sm-2 col-lg-2 text-left p-0">
+									<div class="col-sm-2 col-lg-2 text-left">
 										<label class="col-form-label text-right" for="cityName">City
-											Name :</label>
+											 :</label>
 									</div>
-									<div class="col-sm-4 col-lg-4 text-left p-0">
+									<div class="col-sm-4 col-lg-4 text-left">
 										<input type="text" class="form-control d-none" id="stateId"
 											name="stateId"> <input type="text"
 											class="form-control" id="cityName" name="cityName" autofocus>
@@ -152,11 +152,11 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
+							<div class="card-footer" align="right">
 								<input type="Submit" class="btn btn-primary" id="citySubmit"
 									value="Save" /> 
 								<input type="button" class="btn btn-primary"
-									onclick="$('#sliderContainer').carousel('prev')" role="button" data-slide="prev"
+									onclick="$('#carouselContainer').carousel('prev')" role="button" data-slide="prev"
 									value="Back" />
 							</div>
 						</div>
@@ -188,7 +188,7 @@
 
 			<div class="carousel-item">
 				<!-- AREA COMPONENT  -->
-				<div class="col-lg-6 mt-3 p-0 m-0">
+				<div class="col-lg-6 p-0 m-0">
 					<form class="form-horizontal" id="areaForm"
 						onsubmit="return false;">
 						<div class="card">
@@ -197,11 +197,11 @@
 								<div class="text-center msg" id="areaFormError"></div>
 								<div class="form-group row">
 									<div class="col-sm-3 col-lg-3"></div>
-									<div class="col-sm-2 col-lg-2 text-left p-0">
+									<div class="col-sm-2 col-lg-2 text-left">
 										<label class="col-form-label text-right" for="areaName">Area
-											Name :</label>
+											 :</label>
 									</div>
-									<div class="col-sm-4 col-lg-4 text-left p-0">
+									<div class="col-sm-4 col-lg-4 text-left">
 										<input type="text" class="form-control d-none" id="cityId"
 											name="cityId"> <input type="text"
 											class="form-control" id="areaName" name="areaName" autofocus>
@@ -209,11 +209,11 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
+							<div class="card-footer" align="right">
 								<input type="Submit" class="btn btn-primary" id="areaSubmit"
 									value="Save" /> 
 								<input type="button" class="btn btn-primary"
-									onclick="$('#sliderContainer').carousel('prev')" role="button" data-slide="prev"
+									onclick="$('#carouselContainer').carousel('prev')" role="button" data-slide="prev"
 									value="Back" />
 							</div>
 						</div>
@@ -245,7 +245,7 @@
 
 			<div class="carousel-item">
 				<!-- PINCODE COMPONENT  -->
-				<div class="col-lg-6 mt-3 p-0 m-0">
+				<div class="col-lg-6 p-0 m-0">
 					<form class="form-horizontal" id="pincodeForm"
 						onsubmit="return false;">
 						<div class="card">
@@ -254,11 +254,11 @@
 								<div class="text-center msg" id="pincodeFormError"></div>
 								<div class="form-group row">
 									<div class="col-sm-3 col-lg-3"></div>
-									<div class="col-sm-2 col-lg-2 text-left p-0">
+									<div class="col-sm-2 col-lg-2 text-left">
 										<label class="col-form-label text-right" for="pincodeName">Pincode
-											Name :</label>
+											 :</label>
 									</div>
-									<div class="col-sm-4 col-lg-4 text-left p-0">
+									<div class="col-sm-4 col-lg-4 text-left">
 										<input type="text" class="form-control d-none" id="areaId"
 											name="areaId"> <input type="text"
 											class="form-control" id="pincodeName" name="pincodeName"
@@ -267,11 +267,11 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
+							<div class="card-footer" align="right">
 								<input type="Submit" class="btn btn-primary" id="pincodeSubmit"
 									value="Save" /> 
 								<input type="button" class="btn btn-primary"
-									onclick="$('#sliderContainer').carousel('prev')" role="button" data-slide="prev"
+									onclick="$('#carouselContainer').carousel('prev')" role="button" data-slide="prev"
 									value="Back" />
 							</div>
 						</div>
@@ -303,7 +303,7 @@
 
 			<div class="carousel-item">
 				<!-- LOCALITY COMPONENT  -->
-				<div class="col-lg-6 mt-3 p-0 m-0">
+				<div class="col-lg-6 p-0 m-0">
 					<form class="form-horizontal" id="localityForm"
 						onsubmit="return false;">
 						<div class="card">
@@ -312,11 +312,11 @@
 								<div class="text-center msg" id="localityFormError"></div>
 								<div class="form-group row">
 									<div class="col-sm-3 col-lg-3"></div>
-									<div class="col-sm-2 col-lg-2 text-left p-0">
+									<div class="col-sm-2 col-lg-2 text-left">
 										<label class="col-form-label text-right" for="localityName">Locality
-											Name :</label>
+											 :</label>
 									</div>
-									<div class="col-sm-4 col-lg-4 text-left p-0">
+									<div class="col-sm-4 col-lg-4 text-left">
 										<input type="text" class="form-control d-none" id="pincodeId"
 											name="pincodeId"> <input type="text"
 											class="form-control" id="localityName" name="localityName"
@@ -325,11 +325,11 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
+							<div class="card-footer" align="right">
 								<input type="Submit" class="btn btn-primary" id="localitySubmit"
 									value="Save" /> 
 								<input type="button" class="btn btn-primary"
-									onclick="$('#sliderContainer').carousel('prev')" role="button" data-slide="prev"
+									onclick="$('#carouselContainer').carousel('prev')" role="button" data-slide="prev"
 									value="Back" />
 							</div>
 						</div>
@@ -362,4 +362,3 @@
 	</div>
 </div>
 <script src="/resources/backend/js/address/address.js"></script>
-<script src="/resources/common/js/sliderPage.js"></script>

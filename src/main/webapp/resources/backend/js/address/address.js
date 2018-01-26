@@ -25,7 +25,7 @@ $("body").on("click", "span.carousel-next", function (){
 	var callerName = $(this).attr("data-callerName");
 	
 	if("state" == getCarouselContainer) {
-		$('#sliderContainer').carousel('next');
+		$('#carouselContainer').carousel('next');
 		stateEdit = false;
 		stateEditId = 0;
 		
@@ -63,7 +63,7 @@ $("body").on("click", "span.carousel-next", function (){
 			}
 		}, 'GET');	
 	} else if("city" == getCarouselContainer) {
-		$('#sliderContainer').carousel('next');
+		$('#carouselContainer').carousel('next');
 		cityEdit = false;
 		cityEditId = 0;
 		
@@ -102,7 +102,7 @@ $("body").on("click", "span.carousel-next", function (){
 			}
 		}, 'GET');	
 	} else if("area" == getCarouselContainer) {
-		$('#sliderContainer').carousel('next');
+		$('#carouselContainer').carousel('next');
 		areaEdit = false;
 		areaEditId = 0;
 		
@@ -141,7 +141,7 @@ $("body").on("click", "span.carousel-next", function (){
 			}
 		}, 'GET');	
 	} else if("pincode" == getCarouselContainer) {
-		$('#sliderContainer').carousel('next');
+		$('#carouselContainer').carousel('next');
 		pincodeEdit = false;
 		pincodeEditId = 0;
 		
@@ -180,7 +180,7 @@ $("body").on("click", "span.carousel-next", function (){
 			}
 		}, 'GET');	
 	} else if("locality" == getCarouselContainer) {
-		$('#sliderContainer').carousel('next');
+		$('#carouselContainer').carousel('next');
 		localityEdit = false;
 		localityEditId = 0;
 		

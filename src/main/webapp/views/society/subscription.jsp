@@ -23,17 +23,17 @@
 						</div>
 					</div>
 					<div class="form-group row" id="subscriptionEndDateContainer">
-						<label class="control-label col-sm-5" for="subscriptionEndDate">Valid Till
-							Date:</label>
+						<label class="control-label col-sm-5" for="subscriptionEndDate">Valid
+							Till Date:</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control"
-								id="subscriptionEndDate" name="subscriptionEndDate"
-								placeholder="Enter End Date" />
+							<input type="text" class="form-control" id="subscriptionEndDate"
+								name="subscriptionEndDate" placeholder="Enter End Date" />
 							<div class="text-danger msg" id="subscriptionEndDateError"></div>
 						</div>
 					</div>
 					<div class="form-group row" id="subscriptionStatusContainer">
-						<label class="control-label col-sm-5" for="subscriptionStatus">Subscription Status:</label>
+						<label class="control-label col-sm-5" for="subscriptionStatus">Subscription
+							Status:</label>
 						<div class="col-sm-7">
 							<select class="form-control" id="subscriptionStatus"
 								name="subscriptionStatus">
@@ -77,18 +77,16 @@
 							for="subscriptionAmount">Subscription Amt:</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control" id="subscriptionAmount"
-								name="subscriptionAmount" placeholder="Subscription Amount"
-								 />
+								name="subscriptionAmount" placeholder="Subscription Amount" />
 							<div class="text-danger msg" id="subscriptionAmountError"></div>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-sm-5 col-xs-12"
-							for="paidAmount">Paid Amount:</label>
+						<label class="control-label col-sm-5 col-xs-12" for="paidAmount">Paid
+							Amount:</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control" id="paidAmount"
-								name="paidAmount" placeholder="Paid Amount"
-								 />
+								name="paidAmount" placeholder="Paid Amount" />
 							<div class="text-danger msg" id="paidAmountError"></div>
 						</div>
 					</div>
@@ -97,8 +95,7 @@
 							for="balanceAmount">Balance Amount:</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control" id="balanceAmount"
-								name="balanceAmount" placeholder="Balance Amount"
-								 />
+								name="balanceAmount" placeholder="Balance Amount" />
 							<div class="text-danger msg" id="balanceAmountError"></div>
 						</div>
 					</div>
@@ -144,76 +141,127 @@
 		</div>
 	</div>
 </div>
-
-<div class="row">
-	<div class="col-sm-12 table-responsive" align="center">
-		<p>Society List</p>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr class="text-primary">
-					<th>Society</th>
-					<th>Location</th>
-					<th>ValidFrom</th>
-					<th>ValidTill</th>
-					<th>Type</th>
-					<th>Status</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody id="accordionSubscription">
-				<c:if test="${societyList.size() > 0}">
-					<c:forEach begin="0" end="${societyList.size() - 1}" var="index"
-						varStatus="cntr">
-						<tr>
-							<td>${societyList.get(index).get("societyName").asText()}<span
-								class="glyphicon glyphicon-pencil" title="Edit Society"></span>
-							</td>
-							<td>${societyList.get(index).get("localityName").asText()}-
-								${societyList.get(index).get("pincodeName").asText()}</td>
-							<td>${societyList.get(index).get('subscriptionStartDateText').asText()}</td>
-							<td>${societyList.get(index).get('subscriptionEndDateText').asText()}</td>
-							<td>${societyList.get(index).get('subscriptionTypeText').asText()}</td>
-							<td>${societyList.get(index).get('subscriptionStatusText').asText()}</td>
-							<td>
-								<c:choose>
-									<c:when test="${societyList.get(index).get('subscriptionStatus').asInt() == 1 
+<div class="container-fluid" align="center">
+	<div id="carouselContainer" class="carousel slide"
+		data-ride="carousel" data-interval="false">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<div class="mt-3 mb-3">
+					<div class="card">
+						<div class="card-header text-center">SOCIETY LIST</div>
+						<div class="card-body table-responsive p-0 m-0">
+							<table class="table table-striped table-hover m-0 p-0">
+								<thead>
+									<tr class="text-primary">
+										<th>Society</th>
+										<th>Location</th>
+										<th>ValidFrom</th>
+										<th>ValidTill</th>
+										<th>Type</th>
+										<th>Status</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:if test="${societyList.size() > 0}">
+										<c:forEach begin="0" end="${societyList.size() - 1}"
+											var="index" varStatus="cntr">
+											<tr>
+												<td>${societyList.get(index).get("societyName").asText()}<span
+													class="glyphicon glyphicon-pencil" title="Edit Society"></span>
+												</td>
+												<td>${societyList.get(index).get("localityName").asText()}-
+													${societyList.get(index).get("pincodeName").asText()}</td>
+												<td>${societyList.get(index).get('subscriptionStartDateText').asText()}</td>
+												<td>${societyList.get(index).get('subscriptionEndDateText').asText()}</td>
+												<td>${societyList.get(index).get('subscriptionTypeText').asText()}</td>
+												<td>${societyList.get(index).get('subscriptionStatusText').asText()}</td>
+												<td><c:choose>
+														<c:when
+															test="${societyList.get(index).get('subscriptionStatus').asInt() == 1 
 										|| societyList.get(index).get('subscriptionStatus').asInt() == 2}">
-										<span class="modal-btn glyphicon glyphicon-piggy-bank"
-										title="Make Payment" data-btnType="transaction"
-										data-subscriptionId="${societyList.get(index).get('subscriptionId').asInt()}"
-										data-toggle="modal" data-target="#myModal"></span>
-									</c:when>
-									<c:otherwise>
-										<span class="modal-btn glyphicon glyphicon glyphicon-plus"
-										title="Add Subscription" data-btnType="subscription"
-										data-societyId="${societyList.get(index).get('societyId').asInt()}"
-										data-toggle="modal" data-target="#myModal"></span>
-									</c:otherwise>
-								</c:choose>
-								<span class="accordion-control glyphicon glyphicon-list"
-								title="View Subscription" data-accordionType="subscriptionList"
-								data-societyId="${societyList.get(index).get('societyId').asInt()}"
-								data-target="#subscriptionListClass_${societyList.get(index).get('societyId').asInt()}"></span>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="7" class="hiddenRow">
-								<div class="accordion-target"
-									id="subscriptionListClass_${societyList.get(index).get('societyId').asInt()}">
-								</div>
-							</td>
-						</tr>
-					</c:forEach>
-				</c:if>
-				<c:if test="${societyList.size() == null}">
-					<tr>
-						<td colspan="7" class="text-danger text-center">No
-							Subscription Found!</td>
-					</tr>
-				</c:if>
-			</tbody>
-		</table>
+															<span class="modal-btn glyphicon glyphicon-piggy-bank"
+																title="Make Payment" data-btnType="transaction"
+																data-subscriptionId="${societyList.get(index).get('subscriptionId').asInt()}"
+																data-toggle="modal" data-target="#myModal"></span>
+														</c:when>
+														<c:otherwise>
+															<span
+																class="modal-btn glyphicon glyphicon glyphicon-plus"
+																title="Add Subscription" data-btnType="subscription"
+																data-societyId="${societyList.get(index).get('societyId').asInt()}"
+																data-toggle="modal" data-target="#myModal"></span>
+														</c:otherwise>
+													</c:choose> <span class="carousel-next glyphicon glyphicon-list"
+													title="View Subscription" data-callCarousel="subscription"
+													data-callerId="${societyList.get(index).get('societyId').asInt()}"
+													data-callerName="${societyList.get(index).get('societyName').asText()}"></span>
+												</td>
+											</tr>
+										</c:forEach>
+									</c:if>
+									<c:if test="${societyList.size() == null}">
+										<tr>
+											<td colspan="7" class="text-danger text-center">No
+												Subscription Found!</td>
+										</tr>
+									</c:if>
+								</tbody>
+							</table>
+						</div>
+						<div class="card-footer"></div>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="mt-3 mb-3">
+					<div class="card">
+						<div class="card-header text-center">SUBSCRIPTION LIST FOR <span id="subscriptionListHeader"></span></div>
+						<div class="card-body table-responsive p-0 m-0">
+							<table class="table table-striped table-hover m-0 p-0">
+								<thead>
+									<tr class="text-primary">
+										<th>Start Date</th>
+										<th>Valid Till</th>
+										<th>Type</th>
+										<th>Status</th>
+										<th>Amount</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody id="subscriptionListBody">
+								</tbody>
+							</table>
+						</div>
+						<div class="card-footer"></div>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="mt-3 mb-3">
+					<div class="card">
+						<div class="card-header text-center">TRANSACTION LIST FOR <span id="transactionListHeader"></span></div>
+						<div class="card-body table-responsive p-0 m-0">
+							<table class="table table-striped table-hover m-0 p-0">
+								<thead>
+									<tr class="text-primary">
+										<th>Date</th>
+										<th>Amt</th>
+										<th>Status</th>
+										<th>Type</th>
+										<th>Details</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody id="transactionListBody">
+								</tbody>
+							</table>
+						</div>
+						<div class="card-footer"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-<script src="/resources/common/js/accordion.js"></script>
 <script src="/resources/backend/js/society/subscription.js"></script>
